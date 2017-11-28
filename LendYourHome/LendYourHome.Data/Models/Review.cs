@@ -10,7 +10,7 @@
         public int Id { get; set; }
         
         [Range(EvaluationMinValue, EvaluationMaxValue)]
-        public byte Evaluation { get; set; }
+        public int Evaluation { get; set; }
 
         [Required]
         [MinLength(ReviewTitleMinLength)]

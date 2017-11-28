@@ -16,6 +16,7 @@
     line-height: 1.4;
 }
 
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
@@ -32,4 +33,17 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.col-centered > img {
+    margin: 17px 0;
+}
+
+.reviews-header {
+    margin: 55px 0;
 }

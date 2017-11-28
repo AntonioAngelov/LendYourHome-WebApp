@@ -5098,6 +5098,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
+          "LendYourHome.Common": "1.0.0",
           "LendYourHome.Data": "1.0.0"
         },
         "compile": {
@@ -13256,11 +13258,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Application\\LendYourHome.Application.csproj",
+      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Application\\LendYourHome.Application.csproj",
       "projectName": "LendYourHome.Application",
-      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Application\\LendYourHome.Application.csproj",
+      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Application\\LendYourHome.Application.csproj",
       "packagesPath": "C:\\Users\\anton\\.nuget\\packages\\",
-      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Application\\obj\\",
+      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13279,14 +13281,14 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Services\\LendYourHome.Services.csproj": {
-              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Services\\LendYourHome.Services.csproj"
+            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Services\\LendYourHome.Services.csproj": {
+              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Services\\LendYourHome.Services.csproj"
             },
-            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj": {
-              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj"
+            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj": {
+              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj"
             },
-            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj": {
-              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj"
+            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj": {
+              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj"
             }
           }
         }

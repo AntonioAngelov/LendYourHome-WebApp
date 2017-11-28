@@ -12,7 +12,7 @@
             var allTypes = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
-                .Where(a => a.GetName().Name.Contains("LearningSystem"))
+                .Where(a => a.GetName().Name.Contains("LendYourHome"))
                 .SelectMany(a => a.GetTypes());
 
             allTypes
@@ -43,7 +43,7 @@
                 .Where(t => t.IsClass
                             && !t.IsAbstract
                             && typeof(IHaveCustomMapping).IsAssignableFrom(t))
-                .Select(Activator.CreateInstance)
+                            .Select(Activator.CreateInstance)
                 .Cast<IHaveCustomMapping>()
                 .ToList()
                 .ForEach(mapping => mapping.ConfigureMapping(this));

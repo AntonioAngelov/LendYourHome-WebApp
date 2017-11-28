@@ -4647,11 +4647,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj",
+      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj",
       "projectName": "LendYourHome.Data",
-      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj",
+      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Data\\LendYourHome.Data.csproj",
       "packagesPath": "C:\\Users\\anton\\.nuget\\packages\\",
-      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Data\\obj\\",
+      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4670,8 +4670,8 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj": {
-              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj"
+            "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj": {
+              "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj"
             }
           }
         }

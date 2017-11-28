@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LendYourHome.Application
 {
+    using AutoMapper;
     using Data;
     using Data.Models;
     using Infrastructure.Extensions;
@@ -39,6 +40,8 @@ namespace LendYourHome.Application
                 .AddDefaultTokenProviders();
 
             services.AddDomainServices();
+
+            services.AddAutoMapper();
 
             services.AddAuthentication().AddFacebook(options =>
             {

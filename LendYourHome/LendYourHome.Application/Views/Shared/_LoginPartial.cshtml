@@ -1,5 +1,9 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+    
+@{
+    var currentUserId = UserManager.GetUserId(User);
+}    
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -9,6 +13,9 @@
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
                     @UserManager.GetUserName(User)
                 </a>
+            </li>
+            <li>
+                <a href="users/details/@currentUserId">My Profile</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>

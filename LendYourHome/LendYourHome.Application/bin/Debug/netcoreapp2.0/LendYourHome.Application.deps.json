@@ -4119,6 +4119,8 @@
       },
       "LendYourHome.Services/1.0.0": {
         "dependencies": {
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
+          "LendYourHome.Common": "1.0.0",
           "LendYourHome.Data": "1.0.0"
         },
         "runtime": {

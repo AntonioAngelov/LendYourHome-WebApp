@@ -1,6 +1,7 @@
 ﻿namespace LendYourHome.Application.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
@@ -287,7 +288,10 @@
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                var username = info.Principal.FindFirstValue(ClaimTypes.Name)
+                    .Split(new[] { " "}, StringSplitOptions.RemoveEmptyEntries)
+                    .First();
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email, Username = username});
             }
         }
 

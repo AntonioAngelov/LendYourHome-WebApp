@@ -2944,11 +2944,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj",
+      "projectUniqueName": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj",
       "projectName": "LendYourHome.Common",
-      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj",
+      "projectPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\LendYourHome.Common.csproj",
       "packagesPath": "C:\\Users\\anton\\.nuget\\packages\\",
-      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome\\LendYourHome.Common\\obj\\",
+      "outputPath": "E:\\Uchene\\SoftUni\\C# Web\\C# MVC Frameworks - ASP.NET Core - Octomber2017\\LendYourHome-WebApp\\LendYourHome\\LendYourHome.Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

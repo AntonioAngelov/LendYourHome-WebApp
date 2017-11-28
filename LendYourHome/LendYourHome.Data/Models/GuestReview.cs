@@ -6,7 +6,6 @@
 
         public User Host { get; set; }
 
-
         public string EvaluatedGuestId { get; set; }
 
         public User EvaluatedGuest { get; set; }

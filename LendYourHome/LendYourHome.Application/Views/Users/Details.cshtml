@@ -1,0 +1,41 @@
+﻿@model LendYourHome.Application.Models.UsersViewModels.UserDetailsViewModel
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="modal-body">
+        <div class="text-center col-centered">
+            <img src="~/Pictures/ProfilePictures/default.jpg" width="140" height="140" class="img-circle" alt="profile-picture">
+            <h3 class="media-heading">@Model.UserInfo.UserName</h3>
+            <span><strong>Ratings: </strong></span>
+            <span class="label label-warning">HTML5/CSS</span>
+        </div>
+    @if (@Model.UserInfo.Address != null && Model.UserInfo.AdditionalInformation != null)
+    {
+        <hr>
+            <div class="text-center col-centered">
+                <p class="text-left">
+                   
+                    @if (Model.UserInfo.Address != null)
+                    {
+                        <strong>Address: </strong>
+                        <br>
+                        @Model.UserInfo.Address
+                    }
+                </p>
+                <p class="text-left">
+                    @if (Model.UserInfo.AdditionalInformation != null)
+                    {
+                        <strong>Additional Info: </strong><br>
+                        @Model.UserInfo.AdditionalInformation
+                    }
+                </p>
+                <br>
+            </div>
+    }
+    
+    <h2 class="text-center reviews-header">Reviews</h2>
+</div>

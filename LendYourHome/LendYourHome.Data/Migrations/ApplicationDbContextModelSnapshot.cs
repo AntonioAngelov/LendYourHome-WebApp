@@ -110,7 +110,7 @@ namespace LendYourHome.Data.Migrations
                     b.Property<string>("AdditionalThoughts")
                         .IsRequired();
 
-                    b.Property<byte>("Evaluation");
+                    b.Property<int>("Evaluation");
 
                     b.Property<DateTime>("SubmitDate");
 
