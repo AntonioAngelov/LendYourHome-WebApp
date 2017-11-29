@@ -18,6 +18,9 @@
         public const int AddressMaxLength = 40;
 
         public const string DefaultProfilePictureUrl =
-            @"~/Pictures/ProfilePictures/default.jpg";
+            @"Pictures/ProfilePictures/default.jpg";
+
+        // {0} is the id if the user and {1} is the name of the picture
+        public const string UserProfilePicturePathTemplate = "Pictures/ProfilePictures/{0}/{1}";
     }
 }

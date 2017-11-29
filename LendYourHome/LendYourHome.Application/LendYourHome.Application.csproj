@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-LendYourHome.Application-86DF57F9-324D-40DE-8C91-D157172517EB</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Pictures\ProfilePictures\default.jpg" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
@@ -23,10 +27,6 @@
     <ProjectReference Include="..\LendYourHome.Common\LendYourHome.Common.csproj" />
     <ProjectReference Include="..\LendYourHome.Data\LendYourHome.Data.csproj" />
     <ProjectReference Include="..\LendYourHome.Services\LendYourHome.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Pictures\ProfilePictures\default.jpg" />
   </ItemGroup>
 
 </Project>
