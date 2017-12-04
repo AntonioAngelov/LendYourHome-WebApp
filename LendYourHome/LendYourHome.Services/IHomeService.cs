@@ -1,5 +1,8 @@
 ﻿namespace LendYourHome.Services
 {
+    using System.Collections.Generic;
+    using ServiceModels.Homes;
+
     public interface IHomeService
     {
         bool Exists(string ownerId);
@@ -14,6 +17,16 @@
             decimal pricePerNight,
             string additionalInfo,
             bool isActiveOffer,
+            List<string> picturesPaths,
             string ownerId);
+
+        IEnumerable<HomeOfferServiceModel> All
+            (string country,
+            string city,
+            int bedrooms,
+            int bathrooms,
+            int sleeps, 
+            decimal minPrice,
+            decimal maxPrice);
     }
 }

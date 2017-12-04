@@ -1,8 +1,11 @@
 ﻿namespace LendYourHome.Services.Implementations
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper.QueryableExtensions;
     using Data;
     using Data.Models;
+    using ServiceModels.Homes;
 
     internal class HomeService : IHomeService
     {
@@ -18,14 +21,15 @@
                 .Any(h => h.OwnerId == ownerId);
 
         public void Create(string country,
-            string city, 
-            string address, 
-            int sleeps, 
-            int bedrooms, 
-            int bathrooms, 
+            string city,
+            string address,
+            int sleeps,
+            int bedrooms,
+            int bathrooms,
             decimal pricePerNight,
-            string additionalInfo, 
+            string additionalInfo,
             bool isActiveOffer,
+            List<string> picturesPaths,
             string ownerId)
         {
             var home = new Home
@@ -39,12 +43,56 @@
                 Bedrooms = bedrooms,
                 IsActiveOffer = isActiveOffer,
                 PricePerNight = pricePerNight,
+                Pictures = picturesPaths.Select(p => new Picture
+                {
+                    Url = p
+                })
+                .ToList(),
                 OwnerId = ownerId
             };
 
             this.db.Add(home);
 
             this.db.SaveChanges();
+        }
+
+        public IEnumerable<HomeOfferServiceModel> All(string country,
+            string city,
+            int bedrooms,
+            int bathrooms,
+            int sleeps,
+            decimal minPrice,
+            decimal maxPrice)
+        {
+            var homes = this.db
+                .Homes
+                .Where(h =>
+                    h.IsActiveOffer &&
+                    h.Bathrooms >= bathrooms &&
+                    h.Bedrooms >= bedrooms &&
+                    h.Sleeps >= sleeps &&
+                    h.PricePerNight <= maxPrice &&
+                    h.PricePerNight >= minPrice)
+                .OrderByDescending(h => (double)h.Reviews.Sum(r => r.Evaluation) / h.Reviews.Count)
+                .ThenBy(h => h.PricePerNight)
+                .ProjectTo<HomeOfferServiceModel>()
+                .ToList();
+
+            if (country != null)
+            {
+                homes = homes
+                    .Where(h => h.Country.ToLower() == country.ToLower())
+                    .ToList();
+            }
+
+            if (city != null)
+            {
+                homes = homes
+                    .Where(h => h.City.ToLower() == city.ToLower())
+                    .ToList();
+            }
+
+            return homes;
         }
     }
 }

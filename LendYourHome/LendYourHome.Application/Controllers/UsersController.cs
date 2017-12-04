@@ -28,15 +28,8 @@
             var userInfo = this.users.Details(id);
             var reveivedGuestReviews = this.guestReviews.GetReceivedReviews(id);
 
-            string path = FileStrem.GetFilePath(userInfo.ProfilePictureUrl);
-            byte[] imagebyte = LoadImage.GetPictureData(path);
-            var base64 = Convert.ToBase64String(imagebyte);
-            this.ViewBag.imagesrc = string.Format("data:image/png;base64,{0}", base64);
-
-
-            //var a = Directory.Exists(FileStrem.GetFilePath("Pictures/ProfilePictures"));
-            //var b = Directory.Exists(FileStrem.GetFilePath("wwwroot/Pictures/ProfilePictures/neshtosi"));
-
+            var base64 = ImagePath.GetBase64(userInfo.ProfilePictureUrl);
+            this.ViewBag.imagesrc = string.Format("data:image;base64,{0}", base64);
             
             return this.View(new UserDetailsViewModel
             {

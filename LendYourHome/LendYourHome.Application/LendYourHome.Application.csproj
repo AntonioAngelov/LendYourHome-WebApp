@@ -29,4 +29,8 @@
     <ProjectReference Include="..\LendYourHome.Services\LendYourHome.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pictures\HomesPictures\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,102 @@
+﻿@model   LendYourHome.Application.Models.HomesViewModels.HomesDisplayViewModel
+
+@{
+    ViewData["Title"] = "Home Search";
+}
+
+<h2>Homes Search</h2>
+
+<div class="row wrapper">
+    <div class="col-md-8 col-md-offset-2">
+        <form asp-controller="Homes" asp-action="Search" method="get">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FormSearch.Country" class="control-label"></label>
+                    <input asp-for="FormSearch.Country" class="form-control" required="required" />
+                    <span asp-validation-for="FormSearch.Country" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="FormSearch.City" class="control-label"></label>
+                    <input asp-for="FormSearch.City" class="form-control" required="required" />
+                    <span asp-validation-for="FormSearch.City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="FormSearch.Sleeps" class="control-label"></label>
+                    <input asp-for="FormSearch.Sleeps" min="1" class="form-control" value="1" />
+                    <span asp-validation-for="FormSearch.Sleeps" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="FormSearch.Bedrooms" class="control-label"></label>
+                    <input asp-for="FormSearch.Bedrooms" min="0" class="form-control" value="0" />
+                    <span asp-validation-for="FormSearch.Bedrooms" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="FormSearch.Bathrooms" class="control-label"></label>
+                    <input asp-for="FormSearch.Bathrooms" min="0" class="form-control" value="0" />
+                    <span asp-validation-for="FormSearch.Bathrooms" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FormSearch.MinPricePerNight" class="control-label"></label>
+                    <input asp-for="FormSearch.MinPricePerNight" min="0" class="form-control" value="0.00" />
+                    <span asp-validation-for="FormSearch.MinPricePerNight" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="FormSearch.MaxPricePerNight" class="control-label"></label>
+                    <input asp-for="FormSearch.MaxPricePerNight" min="0" class="form-control" value="0.00" />
+                    <span asp-validation-for="FormSearch.MaxPricePerNight" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="search-homes-button" type="submit" value="Search For Homes" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <section id="homes" class="bg-light-gray">
+        <div class="container">
+            @if (Model.Homes.Any())
+            {
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Homes</h2>
+                    <h3 class="section-subheading text-muted">Homes that meet your requirements.</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach (var home in Model.Homes)
+                {
+                    <div class="col-md-4 col-sm-6 home-item">
+                        <a asp-controller="Homes" asp-action="Details" asp-route-id="@home.Id" class="home-link" data-toggle="modal">
+                            <img src="@home.PictureUrl" class="img-responsive" alt="">
+                        </a>
+                        <div class="home-caption">
+                            <h4><strong>&euro;@home.PricePerNight</strong> per Night</h4>
+                            <p class="text-muted">In @home.Country, @home.City city</p>
+                            <p class="text-muted">@home.Sleeps sleeps- @home.Bedrooms bedrooms - @home.Bathrooms bathrooms</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">No homes found</h2>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

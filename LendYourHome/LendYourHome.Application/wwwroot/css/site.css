@@ -1,1 +1,74 @@
-﻿
+﻿#search-homes-button {
+    width: 100%;
+}
+
+/*homes listing styles*/
+
+section#homes {
+    margin-top: 46px;
+}
+
+.bg-light-gray {
+    background-color: #eeeeee;
+}
+
+section h2.section-heading {
+    font-size: 40px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+section h3.section-subheading {
+    font-size: 16px;
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: none;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 75px;
+}
+
+#homes .home-item {
+    margin: 0 0 15px;
+    right: 0;
+}
+
+#homes .home-item .home-link {
+    display: block;
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#homes .home-item .home-caption {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+#homes .home-item .home-caption h4 {
+    text-transform: none;
+    margin: 0;
+}
+
+@media (min-width: 767px) {
+    #homes .home-item {
+        margin: 0 0 30px;
+    }
+}
+
+#homes .home-item .home-caption p {
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-size: 16px;
+    margin: 0;
+}
+
+#homes .home-item .home-link img {
+    width: 100%;
+}
+
+#homes * {
+    z-index: 2;
+}
