@@ -8,9 +8,11 @@
         public int Id { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime? CheckInDate { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime? CheckOutDate { get; set; }
 
         public bool IsApproved { get; set; }

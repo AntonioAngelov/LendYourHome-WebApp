@@ -1,4 +1,6 @@
-﻿@model   LendYourHome.Application.Models.HomesViewModels.HomesDisplayViewModel
+﻿@using LendYourHome.Application.Models.Enums
+
+@model   LendYourHome.Application.Models.HomesViewModels.HomesDisplayViewModel
 
 @{
     ViewData["Title"] = "Home Search";
@@ -7,51 +9,42 @@
 <h2>Homes Search</h2>
 
 <div class="row wrapper">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-sm-8 col-sm-offset-2">
         <form asp-controller="Homes" asp-action="Search" method="get">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
                     <label asp-for="FormSearch.Country" class="control-label"></label>
                     <input asp-for="FormSearch.Country" class="form-control" required="required" />
                     <span asp-validation-for="FormSearch.Country" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
                     <label asp-for="FormSearch.City" class="control-label"></label>
                     <input asp-for="FormSearch.City" class="form-control" required="required" />
                     <span asp-validation-for="FormSearch.City" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
                     <label asp-for="FormSearch.Sleeps" class="control-label"></label>
-                    <input asp-for="FormSearch.Sleeps" min="1" class="form-control" value="1" />
+                    <select asp-for="FormSearch.Sleeps" asp-items="Html.GetEnumSelectList<SleepsRange>()" class="form-control"></select>
                     <span asp-validation-for="FormSearch.Sleeps" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
                     <label asp-for="FormSearch.Bedrooms" class="control-label"></label>
-                    <input asp-for="FormSearch.Bedrooms" min="0" class="form-control" value="0" />
+                    <select asp-for="FormSearch.Bedrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
                     <span asp-validation-for="FormSearch.Bedrooms" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
                     <label asp-for="FormSearch.Bathrooms" class="control-label"></label>
-                    <input asp-for="FormSearch.Bathrooms" min="0" class="form-control" value="0" />
+                    <select asp-for="FormSearch.Bathrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
                     <span asp-validation-for="FormSearch.Bathrooms" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="FormSearch.MinPricePerNight" class="control-label"></label>
-                    <input asp-for="FormSearch.MinPricePerNight" min="0" class="form-control" value="0.00" />
-                    <span asp-validation-for="FormSearch.MinPricePerNight" class="text-danger"></span>
+                <div class="form-group col-xs-6 col-xs-offset-3 col-sm-6">
+                    <label asp-for="FormSearch.PriceRange" class="control-label"></label>
+                    <select asp-for="FormSearch.PriceRange" asp-items="Html.GetEnumSelectList<PriceRange>()" class="form-control"></select>
+                    <span asp-validation-for="FormSearch.PriceRange" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="FormSearch.MaxPricePerNight" class="control-label"></label>
-                    <input asp-for="FormSearch.MaxPricePerNight" min="0" class="form-control" value="0.00" />
-                    <span asp-validation-for="FormSearch.MaxPricePerNight" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
+            </div>            
+            <div class="form-group  col-xs-8 col-xs-offset-2">
                 <input id="search-homes-button" type="submit" value="Search For Homes" class="btn btn-primary" />
             </div>
         </form>
@@ -73,14 +66,17 @@
             <div class="row">
                 @foreach (var home in Model.Homes)
                 {
-                    <div class="col-md-4 col-sm-6 home-item">
+                    <div class="col-sm-4 col-sm-6 home-item">
                         <a asp-controller="Homes" asp-action="Details" asp-route-id="@home.Id" class="home-link" data-toggle="modal">
                             <img src="@home.PictureUrl" class="img-responsive" alt="">
                         </a>
                         <div class="home-caption">
-                            <h4><strong>&euro;@home.PricePerNight</strong> per Night</h4>
-                            <p class="text-muted">In @home.Country, @home.City city</p>
-                            <p class="text-muted">@home.Sleeps sleeps- @home.Bedrooms bedrooms - @home.Bathrooms bathrooms</p>
+                            <ul>
+                                <li class="focused"><strong>@home.AverageRating Average Rating</strong></li>
+                                <li class="text-muted">In @home.Country, @home.City city</li>
+                                <li class="text-muted">@home.Sleeps sleeps - @home.Bedrooms bedrooms - @home.Bathrooms bathrooms</li>
+                                <li class="focused"><strong>&euro;@home.PricePerNight per Night</strong></li>
+                            </ul>
                         </div>
                     </div>
                 }

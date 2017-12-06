@@ -23,9 +23,12 @@
         IEnumerable<HomeOfferServiceModel> All
             (string country,
             string city,
-            int bedrooms,
-            int bathrooms,
-            int sleeps, 
+            int minBedrooms,
+            int maxBedrooms,
+            int minBathrooms,
+            int maxBathrooms,
+            int minSleeps,
+            int maxSleeps,
             decimal minPrice,
             decimal maxPrice);
     }

@@ -2,6 +2,11 @@
 {
     public class DataConstants
     {
+        public const int ZeroMaxValue = 0;
+        public const int OneMaxValue = 1;
+        public const int AdditionalInfoMaxLength = 150;
+
+
         public const int EvaluationMinValue = 0;
         public const byte EvaluationMaxValue = 5;
 

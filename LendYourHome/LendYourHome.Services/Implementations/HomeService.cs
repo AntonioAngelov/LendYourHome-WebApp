@@ -58,9 +58,12 @@
 
         public IEnumerable<HomeOfferServiceModel> All(string country,
             string city,
-            int bedrooms,
-            int bathrooms,
-            int sleeps,
+            int minBedrooms,
+            int maxBedrooms,
+            int minBathrooms,
+            int maxBathrooms,
+            int minSleeps,
+            int maxSleeps,
             decimal minPrice,
             decimal maxPrice)
         {
@@ -68,14 +71,17 @@
                 .Homes
                 .Where(h =>
                     h.IsActiveOffer &&
-                    h.Bathrooms >= bathrooms &&
-                    h.Bedrooms >= bedrooms &&
-                    h.Sleeps >= sleeps &&
+                    h.Bathrooms >= minBathrooms &&
+                    h.Bathrooms <= maxBathrooms &&
+                    h.Bedrooms >= minBedrooms &&
+                    h.Bedrooms <= maxBedrooms &&
+                    h.Sleeps >= minSleeps &&
+                    h.Sleeps <= maxSleeps &&
                     h.PricePerNight <= maxPrice &&
                     h.PricePerNight >= minPrice)
-                .OrderByDescending(h => (double)h.Reviews.Sum(r => r.Evaluation) / h.Reviews.Count)
-                .ThenBy(h => h.PricePerNight)
                 .ProjectTo<HomeOfferServiceModel>()
+                .OrderByDescending(h => h.AverageRating)
+                .ThenBy(h => h.PricePerNight)
                 .ToList();
 
             if (country != null)

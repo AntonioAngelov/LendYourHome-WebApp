@@ -42,7 +42,7 @@ namespace LendYourHome.Application
             services.AddDomainServices();
 
             services.AddAutoMapper();
-
+           
             services.AddAuthentication().AddFacebook(options =>
             {
                 options.AppId = Configuration["Authentication:Facebook:AppId"];

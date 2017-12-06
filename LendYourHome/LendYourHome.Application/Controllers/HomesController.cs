@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Common.Constants;
-    using Common.Utilties;
     using Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -14,6 +13,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Models.HomesViewModels;
     using Services;
+    using Services.Files;
     using Services.ServiceModels.Homes;
 
     [Authorize]
@@ -22,12 +22,14 @@
         private readonly IHomeService homes;
         private readonly IUserService users;
         private readonly UserManager<User> userManager;
+        private readonly IPictureService pictureService;
 
-        public HomesController(IHomeService homes, IUserService users, UserManager<User> userManager)
+        public HomesController(IHomeService homes, IUserService users, UserManager<User> userManager, IPictureService pictureService)
         {
             this.homes = homes;
             this.users = users;
             this.userManager = userManager;
+            this.pictureService = pictureService;
         }
 
         [HttpGet]
@@ -44,6 +46,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(HomeCreateViewModel model, List<IFormFile> pictures)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -128,26 +131,82 @@
                 });
             }
 
-            if (model.FormSearch.MinPricePerNight > model.FormSearch.MaxPricePerNight)
-            {
-                ModelState.AddModelError("FormSearch.MaxPricePerNight", "The max price must be higher than the min price.");
-                return this.View(new HomesDisplayViewModel
-                {
-                    FormSearch = model.FormSearch ?? new HomesSearchingViewModel(),
-                    Homes = model.Homes ?? new List<HomeOfferServiceModel>()
+            int minBedrooms = 0;
+            int maxBedrooms = int.MaxValue;
+            int minBathrooms = 0;
+            int maxBathrooms = int.MaxValue;
+            int minSleeps = 1;
+            int maxSleeps = int.MaxValue;
+            decimal minPrice = 0;
+            decimal maxPrice = decimal.MaxValue;
 
-                });
+            switch (model.FormSearch.Bathrooms)
+            {
+                case Models.Enums.NumbersRange.FromZeroToTwo:
+                    maxBathrooms = 2;
+                    break;
+                case Models.Enums.NumbersRange.FromThreeToFive:
+                    minBathrooms = 3;
+                    maxBathrooms = 5;
+                    break;
+                case Models.Enums.NumbersRange.More:
+                    minBathrooms = 6;
+                    break;
             }
 
+            switch (model.FormSearch.Bedrooms)
+            {
+                case Models.Enums.NumbersRange.FromZeroToTwo:
+                    maxBedrooms = 2;
+                    break;
+                case Models.Enums.NumbersRange.FromThreeToFive:
+                    minBedrooms = 3;
+                    maxBedrooms = 5;
+                    break;
+                case Models.Enums.NumbersRange.More:
+                    minBedrooms = 6;
+                    break;
+            }
+
+            switch (model.FormSearch.PriceRange)
+            {
+                case Models.Enums.PriceRange.FromZeroToTen:
+                    maxPrice = 10;
+                    break;
+                case Models.Enums.PriceRange.FromTenToTwenty:
+                    minPrice = 10;
+                    maxPrice = 20;
+                    break;
+                case Models.Enums.PriceRange.FromTWentyToThirty:
+                    minPrice = 30;
+                    break;
+            }
+
+            switch (model.FormSearch.Sleeps)
+            {
+                case Models.Enums.SleepsRange.FromOneToTwo:
+                    maxSleeps = 2;
+                    break;
+                case Models.Enums.SleepsRange.FromThreeToFive:
+                    minSleeps = 3;
+                    maxSleeps = 5;
+                    break;
+                case Models.Enums.SleepsRange.More:
+                    minSleeps = 6;
+                    break;
+            }
 
             var homesOffers = this.homes
                 .All(model.FormSearch.Country,
                 model.FormSearch.City,
-                model.FormSearch.Bedrooms,
-                model.FormSearch.Bathrooms,
-                model.FormSearch.Sleeps,
-                model.FormSearch.MinPricePerNight,
-                model.FormSearch.MaxPricePerNight);
+                minBedrooms,
+                maxBedrooms,
+                minBathrooms,
+                maxBathrooms,
+                minSleeps,
+                maxSleeps,
+                minPrice,
+                maxPrice);
 
             //get adequate base64 image src
 
@@ -155,15 +214,10 @@
             {
                 var relativePath = home.PictureUrl;
 
-                var base64 = ImagePath.GetBase64(relativePath);
+                var base64 = this.pictureService.GetBase64(relativePath);
                 home.PictureUrl = string.Format("data:image;base64,{0}", base64); ;
             }
-
-            if (model.FormSearch.Sleeps <= 0)
-            {
-                model.FormSearch.Sleeps = 1;
-            }
-
+            
             return this.View(new HomesDisplayViewModel
             {
                 Homes = homesOffers,
@@ -175,7 +229,7 @@
         {
             var currentHomeDirectory = Guid.NewGuid(); 
 
-            string path = FileStrem.GetFilePath($"Pictures/HomesPictures/{currentHomeDirectory}");
+            string path = this.pictureService.GetFilePath($"Pictures/HomesPictures/{currentHomeDirectory}");
 
             Directory.CreateDirectory(path);
 

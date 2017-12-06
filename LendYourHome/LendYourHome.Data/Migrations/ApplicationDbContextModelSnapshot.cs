@@ -93,7 +93,8 @@ namespace LendYourHome.Data.Migrations
 
                     b.Property<int>("HomeId");
 
-                    b.Property<string>("Url");
+                    b.Property<string>("Url")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -108,7 +109,8 @@ namespace LendYourHome.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AdditionalThoughts")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(150);
 
                     b.Property<int>("Evaluation");
 

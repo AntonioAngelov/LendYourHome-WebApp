@@ -23,16 +23,20 @@
         [MinLength(AddressMinLength)]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
-
+        
         [Required]
+        [Range(OneMaxValue, int.MaxValue)]
         public int? Sleeps { get; set; }
 
         [Required]
+        [Range(ZeroMaxValue, int.MaxValue)]
         public int? Bedrooms { get; set; }
 
         [Required]
+        [Range(ZeroMaxValue, int.MaxValue)]
         public int? Bathrooms { get; set; }
 
+        [Range(ZeroMaxValue, double.MaxValue)]
         public decimal PricePerNight { get; set; }
         
         public string Additionalnformation { get; set; }

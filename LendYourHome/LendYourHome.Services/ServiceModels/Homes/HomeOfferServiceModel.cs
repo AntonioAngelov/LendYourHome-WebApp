@@ -23,15 +23,20 @@
 
         public decimal PricePerNight { get; set; }
 
+        public double AverageRating { get; set; }
+
 
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<Home, HomeOfferServiceModel>()
                 .ForMember(ho => ho.PictureUrl,
                     cfg => cfg.MapFrom(h => h.Pictures
-                    .OrderBy(p => p.Url)
-                    .Select(p => p.Url)
-                    .FirstOrDefault()));
+                        .OrderBy(p => p.Url)
+                        .Select(p => p.Url)
+                        .FirstOrDefault()))
+                .ForMember(ho => ho.AverageRating,
+                    cfg => cfg.MapFrom(h =>
+                        h.Reviews.Any() ? (double) h.Reviews.Sum(r => r.Evaluation) / h.Reviews.Count : 0));
         }
     }
 }

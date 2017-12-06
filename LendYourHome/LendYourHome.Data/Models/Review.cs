@@ -18,8 +18,10 @@
         public string Title { get; set; }
 
         [Required]
+        [MaxLength(AdditionalInfoMaxLength)]
         public string AdditionalThoughts { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime SubmitDate { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace LendYourHome.Application.Models.HomesViewModels
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
+    using Enums;
 
     public class HomesSearchingViewModel
     {
@@ -11,21 +11,13 @@
         [Display(Prompt = "Amsterdam")]
         public string City { get; set; }
        
-        [Display(Prompt = "1")]
-        public int Sleeps { get; set; }
+        public SleepsRange Sleeps { get; set; }
+        
+        public NumbersRange Bedrooms { get; set; }
+        
+        public NumbersRange Bathrooms { get; set; }
 
-        [Display(Prompt = "0")]
-        public int Bedrooms { get; set; }
-
-        [Display(Prompt = "0")]
-        public int Bathrooms { get; set; }
-
-        [Display(Name = "Min Price per Night", Prompt = "0.00")]
-        [Range(0, Double.MaxValue, ErrorMessage = "Price must be possitive number.")]
-        public decimal MinPricePerNight { get; set; }
-
-        [Display(Name = "Max Price per Night", Prompt = "0.00")]
-        [Range(0, Double.MaxValue, ErrorMessage = "Price must be possitive number.")]
-        public decimal MaxPricePerNight { get; set; }
+        [Display(Name = "Price Range")]
+        public PriceRange PriceRange { get; set; }
     }
 }
