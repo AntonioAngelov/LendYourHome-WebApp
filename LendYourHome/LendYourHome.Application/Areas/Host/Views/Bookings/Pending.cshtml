@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LendYourHome.Services.ServiceModels.Bookings.HostBookingsServiceModel>
+
+@{
+    ViewData["Title"] = "Home Pending Bookings";
+}
+
+<div id="host-bokings" class="wrapper">
+
+    @if (Model.Any())
+    {
+        <h2 class="page-header centered">Pending Booking Requests For Your Home</h2>
+
+        <div class="row">
+            <table id="pending-table" class="table-hover table-bordered col-sm-8 col-xs-offset-2">
+                <thead>
+                    <tr>
+                        <th>
+                            By
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CheckInDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CheckOutDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalPrice)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                {
+                        <tr>
+                            <td class="guest-info">
+                                <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@booking.GuestId">
+                                    <img src="@booking.GuestProfilePictureUrl" alt="profile-picture" class="img-responsive">
+                                    @booking.GuestUsername
+                                </a>
+                            </td>
+                            <td>
+                                @booking.CheckInDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @booking.CheckOutDate.ToShortDateString()
+                            </td>
+                            <td>
+                                &euro;@Html.DisplayFor(modelItem => booking.TotalPrice)
+                            </td>
+                            <td>
+                                <form asp-action="Accept">
+                                    <input type="hidden" name="bookingId" value="@booking.Id" />
+                                    <input id="accept-booking-btn" type="submit" value="Approve Booking" class="btn btn-info" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h2 class="page-header centered">There Are No Pending Bookings For Your Home</h2>
+    }
+</div>

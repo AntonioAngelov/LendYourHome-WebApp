@@ -20,6 +20,16 @@
             => this.db.Homes
                 .Any(h => h.OwnerId == ownerId);
 
+        public bool Exists(int homeId)
+            => this.db.Homes
+            .Any(h => h.Id == homeId);
+
+        public HomeDetailsServiceModel Find(int homeId)
+            => this.db.Homes
+                .Where(h => h.Id == homeId)
+                .ProjectTo<HomeDetailsServiceModel>()
+                .FirstOrDefault();
+
         public void Create(string country,
             string city,
             string address,

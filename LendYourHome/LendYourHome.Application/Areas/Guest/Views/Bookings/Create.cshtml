@@ -1,0 +1,40 @@
+﻿@using LendYourHome.Common.Constants
+
+@model LendYourHome.Application.Areas.Guest.Models.BookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Booking Request";
+}
+
+<div id="booking-create" class="wrapper">
+    @if (TempData.ContainsKey(ApplicationConstants.TempDataHomeOwnerNamKey))
+    {
+        <h2 class="page-header centered">Send Booking Request for @TempData[ApplicationConstants.TempDataHomeOwnerNamKey]&#39;s home</h2>
+    }
+
+    <div class="row">
+        <div class="col-sm-4 col-xs-4 col-xs-offset-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CheckInDate" class="control-label"></label>
+                    <input asp-for="CheckInDate" class="form-control" required="required" placeholder="dd/MM/yyyy"/>
+                    <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CheckOutDate" class="control-label"></label>
+                    <input asp-for="CheckOutDate" class="form-control" required="required" placeholder="dd/MM/yyyy"/>
+                    <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" value="Send" class="btn btn-default col-sm-6 col-xs-6 col-xs-offset-3" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

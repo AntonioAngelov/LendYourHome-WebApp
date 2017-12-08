@@ -7,17 +7,17 @@
     public class HomeCreateViewModel
     {
         [Required]
-        [MinLength(HomeCountryMinLength)]
+        [MinLength(HomeCountryMinLength, ErrorMessage = "Country name must be atleast 4 symbols.")]
         [MaxLength(HomeCountryMaxLength)]
         public string Country { get; set; }
 
         [Required]
-        [MinLength(HomeCityMinLength)]
+        [MinLength(HomeCityMinLength, ErrorMessage = "City name must be at least 4 symbols.")]
         [MaxLength(HomeCityMaxLength)]
         public string City { get; set; }
 
         [Required]
-        [MinLength(AddressMinLength)]
+        [MinLength(AddressMinLength, ErrorMessage = "Address must be at leas 5 symbols")]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
 

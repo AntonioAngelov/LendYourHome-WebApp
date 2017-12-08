@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Enums;
     using Models.HomesViewModels;
     using Services;
     using Services.Files;
@@ -103,7 +104,6 @@
                 userId);
 
             this.users.AddInRole(userId, ApplicationConstants.HostRole);
-           
 
             return RedirectToAction("Index", "Home");
         }
@@ -139,62 +139,11 @@
             int maxSleeps = int.MaxValue;
             decimal minPrice = 0;
             decimal maxPrice = decimal.MaxValue;
-
-            switch (model.FormSearch.Bathrooms)
-            {
-                case Models.Enums.NumbersRange.FromZeroToTwo:
-                    maxBathrooms = 2;
-                    break;
-                case Models.Enums.NumbersRange.FromThreeToFive:
-                    minBathrooms = 3;
-                    maxBathrooms = 5;
-                    break;
-                case Models.Enums.NumbersRange.More:
-                    minBathrooms = 6;
-                    break;
-            }
-
-            switch (model.FormSearch.Bedrooms)
-            {
-                case Models.Enums.NumbersRange.FromZeroToTwo:
-                    maxBedrooms = 2;
-                    break;
-                case Models.Enums.NumbersRange.FromThreeToFive:
-                    minBedrooms = 3;
-                    maxBedrooms = 5;
-                    break;
-                case Models.Enums.NumbersRange.More:
-                    minBedrooms = 6;
-                    break;
-            }
-
-            switch (model.FormSearch.PriceRange)
-            {
-                case Models.Enums.PriceRange.FromZeroToTen:
-                    maxPrice = 10;
-                    break;
-                case Models.Enums.PriceRange.FromTenToTwenty:
-                    minPrice = 10;
-                    maxPrice = 20;
-                    break;
-                case Models.Enums.PriceRange.FromTWentyToThirty:
-                    minPrice = 30;
-                    break;
-            }
-
-            switch (model.FormSearch.Sleeps)
-            {
-                case Models.Enums.SleepsRange.FromOneToTwo:
-                    maxSleeps = 2;
-                    break;
-                case Models.Enums.SleepsRange.FromThreeToFive:
-                    minSleeps = 3;
-                    maxSleeps = 5;
-                    break;
-                case Models.Enums.SleepsRange.More:
-                    minSleeps = 6;
-                    break;
-            }
+            
+            this.GetBedroomsRange(ref minBedrooms, ref maxBedrooms, model.FormSearch.Bedrooms);
+            this.GetBathroomsRange(ref minBathrooms, ref maxBathrooms, model.FormSearch.Bathrooms);
+            this.GetPricerange(ref minPrice, ref maxPrice, model.FormSearch.PriceRange);
+            this.GetSleepsRange(ref minSleeps, ref maxSleeps, model.FormSearch.Sleeps);
 
             var homesOffers = this.homes
                 .All(model.FormSearch.Country,
@@ -212,12 +161,9 @@
 
             foreach (var home in homesOffers)
             {
-                var relativePath = home.PictureUrl;
-
-                var base64 = this.pictureService.GetBase64(relativePath);
-                home.PictureUrl = string.Format("data:image;base64,{0}", base64); ;
+                home.PictureUrl = this.PreparePictureToDisplay(home.PictureUrl);
             }
-            
+
             return this.View(new HomesDisplayViewModel
             {
                 Homes = homesOffers,
@@ -225,15 +171,116 @@
             });
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Details(int id)
+        {
+            if (!this.homes.Exists(id))
+            {
+                return this.NotFound();
+            }
+
+            var homeInfo = this.homes
+                .Find(id);
+
+            //prepare owner profile picture
+            homeInfo.OwnerPictureUrl = this.PreparePictureToDisplay(homeInfo.OwnerPictureUrl);
+
+            //load pictures
+            for (int i = 0; i < homeInfo.HomePicturesUrls.Count(); i++)
+            {
+                homeInfo.HomePicturesUrls[i] = this.PreparePictureToDisplay(homeInfo.HomePicturesUrls[i]);
+            }
+
+            //set TempData for the booking
+            this.TempData[ApplicationConstants.TempDataHomeOwnerNamKey] = homeInfo.OwnerName;
+
+            return this.View(homeInfo);
+        }
+
         private string GetAdequateHomePictersPath()
         {
-            var currentHomeDirectory = Guid.NewGuid(); 
+            var currentHomeDirectory = Guid.NewGuid();
 
             string path = this.pictureService.GetFilePath($"Pictures/HomesPictures/{currentHomeDirectory}");
 
             Directory.CreateDirectory(path);
 
             return path;
+        }
+
+        public void GetBathroomsRange(ref int minBathrooms, ref int maxBathrooms, NumbersRange range)
+        {
+            switch (range)
+            {
+                case NumbersRange.FromZeroToTwo:
+                    maxBathrooms = 2;
+                    break;
+                case NumbersRange.FromThreeToFive:
+                    minBathrooms = 3;
+                    maxBathrooms = 5;
+                    break;
+                case NumbersRange.More:
+                    minBathrooms = 6;
+                    break;
+            }
+        }
+
+        public void GetBedroomsRange(ref int minBedrooms, ref int maxBedrooms, NumbersRange range)
+        {
+                    switch (range)
+            {
+                case NumbersRange.FromZeroToTwo:
+                    maxBedrooms = 2;
+                    break;
+                case NumbersRange.FromThreeToFive:
+                    minBedrooms = 3;
+                    maxBedrooms = 5;
+                    break;
+                case NumbersRange.More:
+                    minBedrooms = 6;
+                    break;
+            }
+        }
+
+        public void GetSleepsRange(ref int minSleeps, ref int maxSleeps, SleepsRange range)
+        {
+            switch (range)
+            {
+                case SleepsRange.FromOneToTwo:
+                    maxSleeps = 2;
+                    break;
+                case SleepsRange.FromThreeToFive:
+                    minSleeps = 3;
+                    maxSleeps = 5;
+                    break;
+                case SleepsRange.More:
+                    minSleeps = 6;
+                    break;
+            }
+        }
+
+        public void GetPricerange(ref decimal minPrice, ref decimal maxPrice, PriceRange range)
+        {
+            switch (range)
+            {
+                case PriceRange.FromZeroToTen:
+                    maxPrice = 10;
+                    break;
+                case PriceRange.FromTenToTwenty:
+                    minPrice = 10;
+                    maxPrice = 20;
+                    break;
+                case PriceRange.FromTWentyToThirty:
+                    minPrice = 30;
+                    break;
+            }
+        }
+
+        private string PreparePictureToDisplay(string relativePath)
+        {
+            var base64 = this.pictureService.GetBase64(relativePath);
+            return string.Format("data:image;base64,{0}", base64); 
         }
     }
 }

@@ -7,6 +7,10 @@
     {
         bool Exists(string ownerId);
 
+        bool Exists(int homeId);
+
+        HomeDetailsServiceModel Find(int homeId);
+
         void Create(
             string country,
             string city,

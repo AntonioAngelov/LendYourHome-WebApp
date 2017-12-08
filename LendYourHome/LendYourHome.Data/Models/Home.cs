@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static LendYourHome.Common.Constants.DataConstants;
+    using static Common.Constants.DataConstants;
 
     public class Home
     {
