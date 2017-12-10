@@ -7,7 +7,7 @@
     using Models;
     using Services;
 
-    public class BookingsController : GuestController
+    public class BookingsController : GuestAreaController
     {
         private readonly IBookingService bookings;
         private readonly IHomeService homes;

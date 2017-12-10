@@ -63,7 +63,8 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <label for="pictures" class="control-label">Add pictures of your home</label>
-                        <input id="pictures" type="file" name="pictures" multiple />
+                        <input id="pictures" type="file" asp-for="Pictures" multiple />
+                        <span asp-validation-for="Pictures" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">

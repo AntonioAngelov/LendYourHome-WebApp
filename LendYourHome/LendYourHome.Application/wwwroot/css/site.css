@@ -4,7 +4,7 @@
 
 #booking-create,
 #guest-booking,
-#host-bokings{
+#host-bokings {
     height: 90%;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .wrapper > .page-header > a > img,
-.wrapper tr  td  a  img {
+.wrapper tr td a img {
     max-width: 50px;
     display: inline-block;
     border-radius: 50%;
@@ -536,11 +536,32 @@ td, th {
     text-align: center;
 }
 
-td.guest-info {
-    text-align: left;
-}
+    td.guest-info {
+        text-align: left;
+    }
 
 #pending-table td,
 #pending-table th {
     padding: 8px;
+}
+
+/* Personal hom detials */
+#personal-home #myCarousel {
+    margin-bottom: 10px;
+}
+
+#personal-home {
+    background-color: #eeeeee;
+}
+
+    #personal-home .btn.btn-warning,
+    #edit-home .btn{
+        height: 54px !important;
+        width: 132px !important;
+        font-size: 29px;
+    }
+
+/*Edit home*/
+#edit-home {
+    background-color: #ccccff;
 }

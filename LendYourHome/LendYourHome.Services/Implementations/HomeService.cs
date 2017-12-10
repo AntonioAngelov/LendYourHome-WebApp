@@ -24,11 +24,50 @@
             => this.db.Homes
             .Any(h => h.Id == homeId);
 
+        public int GetId(string ownerId)
+            => this.db.Homes
+                .FirstOrDefault(h => h.OwnerId == ownerId)
+                .Id;
+
         public HomeDetailsServiceModel Find(int homeId)
             => this.db.Homes
                 .Where(h => h.Id == homeId)
                 .ProjectTo<HomeDetailsServiceModel>()
                 .FirstOrDefault();
+
+        public PersonalHomeDetailsServiceModel Find(string ownerId)
+            => this.db.Homes
+                .Where(h => h.OwnerId == ownerId)
+                .ProjectTo<PersonalHomeDetailsServiceModel>()
+                .FirstOrDefault();
+
+        public void Edit(string ownerId, 
+            int sleeps, 
+            string country, 
+            string city, 
+            string additionalnformation, 
+            int bathrooms,
+            int bedrooms, 
+            bool isActiveOffer,
+            string address,
+            decimal pricePerNight)
+        {
+            var home = this.db.Homes
+                .Where(h => h.OwnerId == ownerId)
+                .FirstOrDefault();
+
+            home.Sleeps = sleeps;
+            home.Country = country;
+            home.City = city;
+            home.Additionalnformation = additionalnformation;
+            home.Bathrooms = bathrooms;
+            home.Bedrooms = bedrooms;
+            home.IsActiveOffer = isActiveOffer;
+            home.Address = address;
+            home.PricePerNight = pricePerNight;
+
+            this.db.SaveChanges();
+        }
 
         public void Create(string country,
             string city,

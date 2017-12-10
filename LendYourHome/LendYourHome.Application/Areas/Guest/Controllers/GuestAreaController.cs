@@ -6,7 +6,7 @@
 
     [Area(ApplicationConstants.GuestArea)]
     [Authorize]
-    public abstract class GuestController : Controller
+    public abstract class GuestAreaController : Controller
     {
 
 

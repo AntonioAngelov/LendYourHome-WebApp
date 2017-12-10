@@ -48,7 +48,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(HomeCreateViewModel model, List<IFormFile> pictures)
+        public IActionResult Create(HomeCreateViewModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
 
@@ -62,12 +62,18 @@
                 return this.View(model);
             }
 
+            if (model.Pictures == null)
+            {
+                this.ModelState.AddModelError("Pictures", "You need to add at least 1 picture of your home.");
+                return this.View(model);
+            }
+
             List<string> picturesPaths = new List<string>();
 
             //save pictures
-            var homePicturesPath = this.GetAdequateHomePictersPath();
+            var homePicturesPath = this.GetAdequateHomePicturesPath();
 
-            foreach (var picture in pictures)
+            foreach (var picture in model.Pictures)
             {
                 if (picture.Length > 0)
                 {
@@ -198,7 +204,7 @@
             return this.View(homeInfo);
         }
 
-        private string GetAdequateHomePictersPath()
+        private string GetAdequateHomePicturesPath()
         {
             var currentHomeDirectory = Guid.NewGuid();
 

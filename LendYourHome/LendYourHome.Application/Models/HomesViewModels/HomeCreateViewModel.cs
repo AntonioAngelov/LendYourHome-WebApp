@@ -1,7 +1,8 @@
 ﻿namespace LendYourHome.Application.Models.HomesViewModels
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using Microsoft.AspNetCore.Http;
     using static Common.Constants.DataConstants;
 
     public class HomeCreateViewModel
@@ -42,5 +43,7 @@
 
         [Display(Name = "Activate offer from now")]
         public bool IsActiveOffer { get; set; }
+
+        public List<IFormFile> Pictures { get; set; }
     }
 }

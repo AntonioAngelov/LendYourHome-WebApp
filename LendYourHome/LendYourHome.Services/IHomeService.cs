@@ -9,7 +9,23 @@
 
         bool Exists(int homeId);
 
+        int GetId(string ownerId);
+
         HomeDetailsServiceModel Find(int homeId);
+
+        PersonalHomeDetailsServiceModel Find(string ownerId);
+
+        void Edit(
+            string ownerId,
+            int sleeps,
+            string country,
+            string city,
+            string additionalnformation,
+            int bathrooms,
+            int bedrooms,
+            bool isActiveOffer,
+            string address,
+            decimal pricePerNight);
 
         void Create(
             string country,

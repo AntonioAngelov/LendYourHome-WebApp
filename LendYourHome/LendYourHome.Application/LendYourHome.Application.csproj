@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Host\Models\" />
     <Folder Include="Pictures\HomesPictures\" />
   </ItemGroup>
 
