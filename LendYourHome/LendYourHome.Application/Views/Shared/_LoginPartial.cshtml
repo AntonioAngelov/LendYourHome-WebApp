@@ -9,8 +9,14 @@
 {
     <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@currentUserId">Profile</a>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Profile
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@currentUserId">Details</a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>

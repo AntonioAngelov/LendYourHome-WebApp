@@ -47,7 +47,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(HomeCreateViewModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -116,25 +115,11 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Search(HomesDisplayViewModel model)
+        public IActionResult Search(HomesSearchingViewModel model)
         {
-            //if client acces the page for a first time only the form must be displayed
-            if (model.FormSearch == null && model.Homes == null)
-            {
-                return this.View(new HomesDisplayViewModel()
-                {
-                    Homes = new List<HomeOfferServiceModel>()
-                });
-            }
-
             if (!ModelState.IsValid)
             {
-                return this.View(new HomesDisplayViewModel
-                {
-                    FormSearch = model.FormSearch ?? new HomesSearchingViewModel(),
-                    Homes = model.Homes ?? new List<HomeOfferServiceModel>()
-
-                });
+                return this.View(model);
             }
 
             int minBedrooms = 0;
@@ -146,14 +131,14 @@
             decimal minPrice = 0;
             decimal maxPrice = decimal.MaxValue;
             
-            this.GetBedroomsRange(ref minBedrooms, ref maxBedrooms, model.FormSearch.Bedrooms);
-            this.GetBathroomsRange(ref minBathrooms, ref maxBathrooms, model.FormSearch.Bathrooms);
-            this.GetPricerange(ref minPrice, ref maxPrice, model.FormSearch.PriceRange);
-            this.GetSleepsRange(ref minSleeps, ref maxSleeps, model.FormSearch.Sleeps);
+            this.GetBedroomsRange(ref minBedrooms, ref maxBedrooms, model.Bedrooms);
+            this.GetBathroomsRange(ref minBathrooms, ref maxBathrooms, model.Bathrooms);
+            this.GetPricerange(ref minPrice, ref maxPrice, model.PriceRange);
+            this.GetSleepsRange(ref minSleeps, ref maxSleeps, model.Sleeps);
 
             var homesOffers = this.homes
-                .All(model.FormSearch.Country,
-                model.FormSearch.City,
+                .All(model.Country,
+                model.City,
                 minBedrooms,
                 maxBedrooms,
                 minBathrooms,
@@ -170,11 +155,9 @@
                 home.PictureUrl = this.PreparePictureToDisplay(home.PictureUrl);
             }
 
-            return this.View(new HomesDisplayViewModel
-            {
-                Homes = homesOffers,
-                FormSearch = model.FormSearch
-            });
+            this.ViewData[ApplicationConstants.ViewDataHomeOffersKey] = homesOffers;
+
+            return this.View(model);
         }
 
         [HttpGet]
@@ -193,13 +176,13 @@
             homeInfo.OwnerPictureUrl = this.PreparePictureToDisplay(homeInfo.OwnerPictureUrl);
 
             //load pictures
-            for (int i = 0; i < homeInfo.HomePicturesUrls.Count(); i++)
+            for (int i = 0; i < homeInfo.HomesPicturesUrls.Count(); i++)
             {
-                homeInfo.HomePicturesUrls[i] = this.PreparePictureToDisplay(homeInfo.HomePicturesUrls[i]);
+                homeInfo.HomesPicturesUrls[i] = this.PreparePictureToDisplay(homeInfo.HomesPicturesUrls[i]);
             }
 
             //set TempData for the booking
-            this.TempData[ApplicationConstants.TempDataHomeOwnerNamKey] = homeInfo.OwnerName;
+            this.TempData[ApplicationConstants.TempDataHomeOwnerNameKey] = homeInfo.OwnerName;
 
             return this.View(homeInfo);
         }

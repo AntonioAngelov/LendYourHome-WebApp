@@ -1,0 +1,36 @@
+﻿@model IEnumerable<LendYourHome.Services.ServiceModels.Reviews.DoneHomeReviewServiceModel>
+
+
+@{
+    ViewData["Title"] = "Done Reviews";
+}
+
+<div id="done-home-reviews" class="wrapper">
+    @if (Model.Any())
+    {
+        <h2 class="page-header centered">Your Done Home Reviews</h2>
+        <div class="row">
+            <div class="col-sm-6 col-xs-offset-3 list-group">
+                @foreach (var review in Model)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">You Rated 
+                            <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@review.OwnerId">@review.OwnerName&apos;s </a>
+                            <a asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@review.HomeId">HOME</a> 
+                            with <strong>@review.Evaluation</strong> <span class="glyphicon glyphicon-star"></span> <span class="text-muted pull-right">On @review.SubmitDate.ToShortDateString()</span>
+                        </div>
+                        <div class="panel-body">
+                            <p>Title: @review.Title</p>
+                            <p>@review.AdditionalThoughts</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <h2 class="page-header centered">Your Have No Done Home Reviews</h2>
+    }
+</div>
+

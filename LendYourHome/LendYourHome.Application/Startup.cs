@@ -8,9 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 namespace LendYourHome.Application
 {
     using AutoMapper;
+    using Common.Constants;
     using Data;
     using Data.Models;
+    using Infrastructure.Authorization;
     using Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     public class Startup
     {
@@ -42,14 +46,23 @@ namespace LendYourHome.Application
             services.AddRouting(routes => routes.LowercaseUrls = true);
 
             services.AddAutoMapper();
-           
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ApplicationConstants.HostEntryPolicy,
+                    policy => policy.Requirements.Add(new RoleRequirement(ApplicationConstants.HostRole)));
+            });
+
+            services.AddScoped<IAuthorizationHandler, RoleHandler>();
+
             services.AddAuthentication().AddFacebook(options =>
             {
                 options.AppId = Configuration["Authentication:Facebook:AppId"];
                 options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            services.AddMvc();
+            services.AddMvc(options => 
+            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

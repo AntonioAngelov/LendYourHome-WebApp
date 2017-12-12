@@ -36,7 +36,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Accept([FromForm] int bookingId)
         {
             var hostId = this.userManager.GetUserId(this.User);

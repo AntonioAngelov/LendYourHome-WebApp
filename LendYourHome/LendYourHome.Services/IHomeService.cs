@@ -1,6 +1,7 @@
 ﻿namespace LendYourHome.Services
 {
     using System.Collections.Generic;
+    using System.Data;
     using ServiceModels.Homes;
 
     public interface IHomeService
@@ -51,5 +52,9 @@
             int maxSleeps,
             decimal minPrice,
             decimal maxPrice);
+
+        IEnumerable<HomeForReviewServiceModel> WaitingForReview(string guestId);
+
+        string GetOwnerName(int homeId);
     }
 }

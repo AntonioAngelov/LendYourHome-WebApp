@@ -1,10 +1,22 @@
-﻿.page-header {
+﻿/*Navbar*/
+div.navbar.navbar-inverse.navbar-fixed-top {
+    border-radius: 50px;
+    padding: 0 20px;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #117bf3;
+}
+
+.page-header {
     font-weight: bold;
 }
 
 #booking-create,
 #guest-booking,
-#host-bokings {
+#host-bokings,
+#waiting-reviews,
+#done-home-reviews {
     height: 90%;
 }
 
@@ -44,7 +56,8 @@
 }
 
 .wrapper > .page-header > a > img,
-.wrapper tr td a img {
+.wrapper tr td a img,
+#waiting-reviews img{
     max-width: 50px;
     display: inline-block;
     border-radius: 50%;
@@ -233,6 +246,11 @@ select.form-control {
         textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder {
             color: #888;
         }
+
+@media (min-width: 768px){
+      .navbar-right {
+          margin-right: 0 !important; 
+      }
 
 
 button#login-button,
@@ -564,4 +582,44 @@ td, th {
 /*Edit home*/
 #edit-home {
     background-color: #ccccff;
+}
+
+/*Waiting reviews*/
+#waiting-reviews ul li {
+    color: #ffffff;
+}
+
+#waiting-reviews ul li > * {
+    margin-left: 10px;
+}
+
+#leav-review-btn {
+    font-size: 20px;
+    margin-left: 55px;
+}
+
+/* Create home review*/
+#waiting-reviews,
+#create-home-review,
+#done-home-reviews{
+    background-color: #cce6ff;
+}
+
+
+    #create-home-review input[type="submit"] {
+        font-size: 30px;
+    }
+
+#evaluation-dropdown {
+    width: 83px;
+}
+
+/*glyphicons */
+.glyphicon-star {
+    color: #e6c300;
+}
+
+/*Done home Reviews*/
+.panel-heading a {
+    padding-left: 7px;
 }

@@ -1,5 +1,6 @@
 ﻿namespace LendYourHome.Services.Implementations
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper.QueryableExtensions;
@@ -133,21 +134,36 @@
                 .ThenBy(h => h.PricePerNight)
                 .ToList();
 
-            if (country != null)
+            if (!string.IsNullOrEmpty(country))
             {
                 homes = homes
-                    .Where(h => h.Country.ToLower() == country.ToLower())
+                    .Where(h => h.Country.ToLower().Contains(country.ToLower().Trim()))
                     .ToList();
             }
 
-            if (city != null)
+            if (!string.IsNullOrEmpty(city))
             {
                 homes = homes
-                    .Where(h => h.City.ToLower() == city.ToLower())
+                    .Where(h => h.City.ToLower().Contains(city.ToLower().Trim()))
                     .ToList();
             }
 
             return homes;
         }
+
+        public IEnumerable<HomeForReviewServiceModel> WaitingForReview(string guestId)
+            => this.db.Homes
+                .Where(h => h.Bookings.Where(b => b.GuestId == guestId && 
+                                                    b.IsApproved &&
+                                                    b.CheckOutDate <= DateTime.UtcNow).Count()
+                            > h.Reviews.Where(r => r.EvaluatingGuestId == guestId).Count())
+                .ProjectTo<HomeForReviewServiceModel>()
+                .ToList();
+
+        public string GetOwnerName(int homeId)
+            => this.db.Homes
+                .Where(h => h.Id == homeId)
+                .Select(h => h.Owner.UserName)
+                .FirstOrDefault();
     }
 }

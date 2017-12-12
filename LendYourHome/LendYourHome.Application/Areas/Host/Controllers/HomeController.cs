@@ -65,7 +65,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(HomeEditViewModel model, List<IFormFile> pictures)
         {
             if (!ModelState.IsValid)

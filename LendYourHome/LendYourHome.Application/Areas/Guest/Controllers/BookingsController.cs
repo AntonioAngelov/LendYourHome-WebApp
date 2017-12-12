@@ -31,14 +31,13 @@
             this.TempData[ApplicationConstants.TempDataHomeIdKey] = id;
 
             //if user refreshes the page the name of the owner must still show
-            this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNamKey);
+            this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNameKey);
 
 
             return this.View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(BookingCreateViewModel model)
         {
             if (!TempData.ContainsKey(ApplicationConstants.TempDataHomeIdKey))
@@ -54,7 +53,7 @@
             }
 
             //if user refreshes the page the name of the owner must still show
-            this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNamKey);
+            this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNameKey);
             this.TempData.Keep(ApplicationConstants.TempDataHomeIdKey);
 
             if (model.CheckOutDate <= model.CheckInDate)
@@ -74,7 +73,7 @@
                 model.CheckOutDate.Value);
 
             TempData[ApplicationConstants.TempDataSuccessMessageKey] =
-                $"Booking request for {TempData[ApplicationConstants.TempDataHomeOwnerNamKey]}'s home sent!";
+                $"Booking request for {TempData[ApplicationConstants.TempDataHomeOwnerNameKey]}'s home sent!";
 
             return RedirectToAction("Index", "Home", new { area = "" });
         }

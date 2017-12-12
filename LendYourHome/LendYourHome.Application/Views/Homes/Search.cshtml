@@ -1,6 +1,8 @@
 ﻿@using LendYourHome.Application.Models.Enums;
+@using LendYourHome.Common.Constants
+@using LendYourHome.Services.ServiceModels.Homes
 
-@model   LendYourHome.Application.Models.HomesViewModels.HomesDisplayViewModel
+@model   LendYourHome.Application.Models.HomesViewModels.HomesSearchingViewModel
 
 @{
     ViewData["Title"] = "Home Search";
@@ -11,37 +13,37 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.Country" class="control-label"></label>
-                    <input asp-for="FormSearch.Country" class="form-control" required="required" />
-                    <span asp-validation-for="FormSearch.Country" class="text-danger"></span>
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control"/>
+                    <span asp-validation-for="Country" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.City" class="control-label"></label>
-                    <input asp-for="FormSearch.City" class="form-control" required="required" />
-                    <span asp-validation-for="FormSearch.City" class="text-danger"></span>
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.Sleeps" class="control-label"></label>
-                    <select asp-for="FormSearch.Sleeps" asp-items="Html.GetEnumSelectList<SleepsRange>()" class="form-control"></select>
-                    <span asp-validation-for="FormSearch.Sleeps" class="text-danger"></span>
+                    <label asp-for="Sleeps" class="control-label"></label>
+                    <select asp-for="Sleeps" asp-items="Html.GetEnumSelectList<SleepsRange>()" class="form-control"></select>
+                    <span asp-validation-for="Sleeps" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.Bedrooms" class="control-label"></label>
-                    <select asp-for="FormSearch.Bedrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
-                    <span asp-validation-for="FormSearch.Bedrooms" class="text-danger"></span>
+                    <label asp-for="Bedrooms" class="control-label"></label>
+                    <select asp-for="Bedrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
+                    <span asp-validation-for="Bedrooms" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.Bathrooms" class="control-label"></label>
-                    <select asp-for="FormSearch.Bathrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
-                    <span asp-validation-for="FormSearch.Bathrooms" class="text-danger"></span>
+                    <label asp-for="Bathrooms" class="control-label"></label>
+                    <select asp-for="Bathrooms" asp-items="Html.GetEnumSelectList<NumbersRange>()" class="form-control"></select>
+                    <span asp-validation-for="Bathrooms" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-6">
-                    <label asp-for="FormSearch.PriceRange" class="control-label"></label>
+                    <label asp-for="PriceRange" class="control-label"></label>
                     <div class="input-group">
                         <div class="input-group-addon">&euro;</div>
-                        <select asp-for="FormSearch.PriceRange" asp-items="Html.GetEnumSelectList<PriceRange>()" class="form-control"></select>
+                        <select asp-for="PriceRange" asp-items="Html.GetEnumSelectList<PriceRange>()" class="form-control"></select>
                     </div>
-                    <span asp-validation-for="FormSearch.PriceRange" class="text-danger"></span>
+                    <span asp-validation-for="PriceRange" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-12">
                     <input id="search-homes-button" type="submit" value="Search For Homes" class="btn btn-primary" />
@@ -54,7 +56,7 @@
 
 <section id="homes" class="bg-light-gray">
     <div class="container">
-        @if (Model.Homes.Any())
+        @if (ViewData.ContainsKey(ApplicationConstants.ViewDataHomeOffersKey))
             {
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -64,7 +66,7 @@
             </div>
 
             <div class="row">
-                @foreach (var home in Model.Homes)
+                @foreach (var home in ViewData[ApplicationConstants.ViewDataHomeOffersKey] as IEnumerable<HomeOfferServiceModel>)
                 {
                     <div class="col-sm-4 col-sm-6 home-item">
                         <a asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@home.Id" class="home-link" data-toggle="modal">
@@ -80,14 +82,6 @@
                         </div>
                     </div>
                 }
-            </div>
-        }
-        else if(Model.FormSearch != null)
-        {
-            <div class="row">
-                <div class="col-sm-12 col-xs-12 ">
-                    <h2 class="section-heading centered page-header">No Homes With Given Requirements Found</h2>
-                </div>
             </div>
         }
     </div>

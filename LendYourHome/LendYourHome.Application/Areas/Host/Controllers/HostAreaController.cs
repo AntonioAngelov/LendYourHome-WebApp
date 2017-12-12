@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Area(ApplicationConstants.HostArea)]
-    [Authorize(Roles = ApplicationConstants.HostRole)]
+    [Authorize(Policy = ApplicationConstants.HostEntryPolicy)]
     public class HostAreaController : Controller
     {
     }
