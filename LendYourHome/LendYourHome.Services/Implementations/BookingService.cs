@@ -53,7 +53,7 @@
             => this.db
                 .Bookings
                 .Where(b => b.IsApproved  == approved && b.GuestId == guestId && b.CheckInDate > DateTime.UtcNow)
-                .OrderBy(b => b.Id)
+                .OrderBy(b => b.CheckInDate)
                 .ProjectTo<GuestBookingServiceModel>()
                 .ToList();
 
@@ -61,7 +61,7 @@
             => this.db
                 .Bookings
                 .Where(b => b.IsApproved == approved && b.Home.OwnerId == hostId && b.CheckInDate > DateTime.UtcNow)
-                .OrderBy(b => b.Id)
+                .OrderBy(b => b.CheckInDate)
                 .ProjectTo<HostBookingsServiceModel>()
                 .ToList();
     }

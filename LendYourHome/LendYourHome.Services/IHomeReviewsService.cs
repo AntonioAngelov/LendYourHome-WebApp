@@ -15,5 +15,7 @@
             string title);
 
         IEnumerable<DoneHomeReviewServiceModel> Done(string userId);
+
+        IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId);
     }
 }

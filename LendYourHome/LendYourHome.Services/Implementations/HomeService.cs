@@ -106,6 +106,13 @@
             this.db.SaveChanges();
         }
 
+        public IEnumerable<HomeOfferServiceModel> TopSixByAverageRating()
+            => this.db.Homes
+                .OrderByDescending(h =>  h.Reviews.Sum(r => r.Evaluation) / (double)h.Reviews.Count)
+                .Take(6)
+                .ProjectTo<HomeOfferServiceModel>()
+                .ToList();
+
         public IEnumerable<HomeOfferServiceModel> All(string country,
             string city,
             int minBedrooms,
@@ -130,7 +137,7 @@
                     h.PricePerNight <= maxPrice &&
                     h.PricePerNight >= minPrice)
                 .ProjectTo<HomeOfferServiceModel>()
-                .OrderByDescending(h => h.AverageRating)
+                .OrderByDescending(h => h.TotalRating / (h.TotalReviewsCount != 0 ? (double)h.TotalReviewsCount : 1))
                 .ThenBy(h => h.PricePerNight)
                 .ToList();
 
@@ -153,10 +160,10 @@
 
         public IEnumerable<HomeForReviewServiceModel> WaitingForReview(string guestId)
             => this.db.Homes
-                .Where(h => h.Bookings.Where(b => b.GuestId == guestId && 
+                .Where(h => h.Bookings.Count(b => b.GuestId == guestId && 
                                                     b.IsApproved &&
-                                                    b.CheckOutDate <= DateTime.UtcNow).Count()
-                            > h.Reviews.Where(r => r.EvaluatingGuestId == guestId).Count())
+                                                    b.CheckOutDate <= DateTime.UtcNow)
+                            > h.Reviews.Count(r => r.EvaluatingGuestId == guestId))
                 .ProjectTo<HomeForReviewServiceModel>()
                 .ToList();
 

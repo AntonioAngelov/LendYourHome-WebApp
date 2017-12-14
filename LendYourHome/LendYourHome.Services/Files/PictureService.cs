@@ -16,6 +16,12 @@
             this.db = db;
         }
 
+        public string PreparePictureToDisplay(string relativePath)
+        {
+            var base64 = this.GetBase64(relativePath);
+            return string.Format("data:image;base64,{0}", base64);
+        }
+
 
         public string GetFilePath(string relativepath)
         {
@@ -44,9 +50,20 @@
         {
             var pathTokens = this.db
                 .Pictures
-                .Where(p => p.HomeId == homeId)
-                .FirstOrDefault()
+                .FirstOrDefault(p => p.HomeId == homeId)
                 .Url
+                .Split('/')
+                .Take(3);
+
+            return this.GetFilePath(string.Join("/", pathTokens));
+        }
+
+        public string GetUserProfilePictureFullPath(string userId)
+        {
+            var pathTokens = this.db
+                .Users
+                .FirstOrDefault(u => u.Id == userId)
+                .ProfilePictureUrl
                 .Split('/')
                 .Take(3);
 

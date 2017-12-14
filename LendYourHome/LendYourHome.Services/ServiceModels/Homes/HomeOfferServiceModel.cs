@@ -23,7 +23,9 @@
 
         public decimal PricePerNight { get; set; }
 
-        public double AverageRating { get; set; }
+        public int TotalRating { get; set; }
+
+        public int TotalReviewsCount { get; set; }
 
 
         public void ConfigureMapping(Profile profile)
@@ -34,9 +36,10 @@
                         .OrderBy(p => p.Url)
                         .Select(p => p.Url)
                         .FirstOrDefault()))
-                .ForMember(ho => ho.AverageRating,
+                .ForMember(ho => ho.TotalRating,
                     cfg => cfg.MapFrom(h =>
-                        h.Reviews.Any() ? (double) h.Reviews.Sum(r => r.Evaluation) / h.Reviews.Count : 0));
+                        h.Reviews.Any() ? h.Reviews.Sum(r => r.Evaluation) : 0))
+                .ForMember(ho => ho.TotalReviewsCount, cfg => cfg.MapFrom(h => h.Reviews.Count));
         }
     }
 }

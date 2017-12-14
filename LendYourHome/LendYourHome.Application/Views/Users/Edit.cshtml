@@ -1,0 +1,43 @@
+﻿@model LendYourHome.Application.Models.UsersViewModels.UserEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div id="edit-profile" class="wrapper">
+    <div id="edit-img-container" class="text-center centered">
+        <img src="@Model.ProfilePictureUrl" width="210" height="167" alt="profile-picture">
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-xs-offset-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div>
+                        <label for="picture" class="control-label">Change Profile Picture</label>
+                        <input id="picture" type="file" name="picture" multiple />
+                    </div>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FormDataModel.UserName" class="control-label"></label>
+                    <input asp-for="FormDataModel.UserName" class="form-control"/>
+                    <span asp-validation-for="FormDataModel.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FormDataModel.Address" class="control-label"></label>
+                    <input asp-for="FormDataModel.Address" class="form-control"/>
+                    <span asp-validation-for="FormDataModel.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FormDataModel.AdditionalInformation" class="control-label"></label>
+                    <textarea asp-for="FormDataModel.AdditionalInformation" class="form-control"></textarea>
+                    <span asp-validation-for="FormDataModel.AdditionalInformation" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" value="Edit" class="btn btn-warning btn-in-edit col-sm-6"/>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-default btn-in-edit col-sm-6">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

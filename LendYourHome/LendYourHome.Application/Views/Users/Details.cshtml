@@ -6,36 +6,65 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="modal-body">
-        <div class="text-center centered">
-            <img src="@ViewBag.imagesrc" width="140" height="140" class="img-circle" alt="profile-picture">
-            <h3 class="media-heading">@Model.UserInfo.UserName</h3>
-            <span><strong>Ratings: </strong></span>
-            <span class="label label-warning">HTML5/CSS</span>
+<div id="user-details" class="wrapper">
+    <div class="text-center centered">
+        <img src="@Model.UserInfo.ProfilePictureUrl" width="210" height="167" alt="profile-picture">
+        <h3 class="media-heading">@Model.UserInfo.UserName</h3>
+        <div>
+            <strong>@((Model.UserInfo.TotalRating / (Model.UserInfo.TotalReviews != 0 ? (double)Model.UserInfo.TotalReviews : 1)).ToString("F2")) <span class="glyphicon glyphicon-star"></span> <span class="text-muted">(@Model.UserInfo.TotalReviews Total Reviews)</span> </strong>
         </div>
-    @if (@Model.UserInfo.Address != null && Model.UserInfo.AdditionalInformation != null)
+        <div></div>
+    </div>
+    <br />
+
+    @if (Model.UserInfo.AdditionalInformation != null && Model.UserInfo.Address != null)
     {
-        <hr>
-            <div class="text-center col-centered">
-                <p class="text-left">
-                   
-                    @if (Model.UserInfo.Address != null)
-                    {
-                        <strong>Address: </strong>
-                        <br>
-                        @Model.UserInfo.Address
-                    }
-                </p>
-                <p class="text-left">
-                    @if (Model.UserInfo.AdditionalInformation != null)
-                    {
-                        <strong>Additional Info: </strong><br>
-                        @Model.UserInfo.AdditionalInformation
-                    }
-                </p>
-                <br>
-            </div>
+        <div class="row">
+            <dl class="dl-horizontal col-sm-6 col-xs-offset-3">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserInfo.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserInfo.Address)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserInfo.AdditionalInformation)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserInfo.AdditionalInformation)
+                </dd>
+            </dl>
+        </div>
     }
-    
-    <h2 class="text-center reviews-header">Reviews</h2>
+
+    @if (Model.UserInfo.Ishost)
+    {
+       <div class="centered-container"><a class="btn btn-primary" asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@Model.UserInfo.HomeId">View Home</a></div>
+    }
+    <hr/>
+
+    @if (Model.ReviewsReceived.Any())
+    {
+        <h2 class="text-center page-header">Reviews</h2>
+        <div class="row">
+            @foreach (var review in Model.ReviewsReceived)
+            {
+                <div class="col-sm-8 col-xs-offset-2 review-container">
+                    <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@review.HostId">
+                        <img src="@review.HostProfilePictureUrl" class="reviewer-picture" alt="profile-picture">
+                        <span> @review.HostName <span class="pull-right text-muted">@review.SubmitDate.ToShortDateString()</span></span>
+                    </a>
+                    <div class="review-info">
+                        <div><strong>Evaluation:</strong> @review.Evaluation <span class="glyphicon glyphicon-star"></span></div>
+                        <div><strong>Title:</strong> @review.Title</div>
+                        <div>@review.AdditionalThoughts</div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h2 class="text-center page-header">There are no reviews</h2>
+    }
 </div>

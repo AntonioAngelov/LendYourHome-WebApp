@@ -1,4 +1,6 @@
-﻿
+﻿@model HomeIndexViewModel
+
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -10,3 +12,61 @@
         <p>Find residence for your travels or even become HOST</p>
     </div><!-- container -->
 </section><!-- section -->
+
+@if (Model.TopHomes.Any())
+{
+    <section id="homes" class="bg-light-gray">
+        <div class="container">
+
+            <div class="centered-container centered">
+                <h2 class="page-header">Top Rated Homes</h2>
+            </div>
+
+            <div class="row">
+                @foreach (var home in Model.TopHomes)
+                {
+                    <div class="col-sm-4 home-item">
+                        <a asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@home.Id" class="home-link" data-toggle="modal">
+                            <img src="@home.PictureUrl" class="img-responsive" alt="">
+                        </a>
+                        <div class="home-caption">
+                            <ul>
+                                <li class="focused"><strong>@((home.TotalRating / (home.TotalReviewsCount != 0 ? (double)home.TotalReviewsCount : 1)).ToString("F2"))  <span class="glyphicon glyphicon-star"></span>  <span class="text-muted">(@home.TotalReviewsCount Total Reviews)</span></strong></li>
+                                <li class="text-muted">In @home.Country, @home.City city</li>
+                                <li class="text-muted">@home.Sleeps sleeps - @home.Bedrooms bedrooms - @home.Bathrooms bathrooms</li>
+                                <li class="focused"><strong>&euro;@home.PricePerNight per Night</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (Model.TopGuests.Any())
+{
+    <section>
+        <div class="container">
+            <div class="centered-container centered">
+                <h2 class="page-header">Top Rated Guests</h2>
+            </div>
+            
+            <div class="row centered">
+                @foreach (var guest in Model.TopGuests)
+                {
+                    <div class="col-sm-4 centered top-guest-container">
+                        <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@guest.Id" class="guest-link" data-toggle="modal">
+                            <img src="@guest.ProfilePictureUrl" class="img-responsive top-guest-picture" alt="">
+                        </a>
+                        <div>@guest.UserName</div>
+                        <div>
+                            <strong>@((guest.TotalRating / (guest.TotalReviews != 0 ? (double)guest.TotalReviews : 1)).ToString("F2"))  <span class="glyphicon glyphicon-star"></span>  <span class="text-muted">(@guest.TotalReviews Total Reviews)</span></strong>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}

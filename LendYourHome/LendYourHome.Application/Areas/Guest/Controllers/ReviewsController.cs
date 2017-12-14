@@ -1,10 +1,10 @@
 ﻿namespace LendYourHome.Application.Areas.Guest.Controllers
 {
-    using Application.Models.ReviewsViewModels;
     using Common.Constants;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
     using Services;
     using Services.Files;
 
@@ -32,7 +32,7 @@
 
             foreach (var home in homesWaitingForReview)
             {
-                home.OwnerPictureUrl = this.PreparePictureToDisplay(home.OwnerPictureUrl);
+                home.OwnerPictureUrl = this.pictureService.PreparePictureToDisplay(home.OwnerPictureUrl);
             }
 
             return this.View(homesWaitingForReview);
@@ -106,13 +106,5 @@
 
             return this.View(reviews);
         }
-
-        //Todo ->> put method in service
-        private string PreparePictureToDisplay(string relativePath)
-        {
-            var base64 = this.pictureService.GetBase64(relativePath);
-            return string.Format("data:image;base64,{0}", base64);
-        }
-
     }
 }

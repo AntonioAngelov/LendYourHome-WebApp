@@ -29,7 +29,7 @@
 
             foreach (var booking in pendingBookings)
             {
-                booking.GuestProfilePictureUrl =  this.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
+                booking.GuestProfilePictureUrl =  this.pictureService.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
             }
 
             return this.View(pendingBookings);
@@ -64,16 +64,10 @@
 
             foreach (var booking in approvedBookings)
             {
-                booking.GuestProfilePictureUrl = this.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
+                booking.GuestProfilePictureUrl = this.pictureService.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
             }
 
             return this.View(approvedBookings);
-        }
-
-        private string PreparePictureToDisplay(string relativePath)
-        {
-            var base64 = this.pictureService.GetBase64(relativePath);
-            return string.Format("data:image;base64,{0}", base64);
         }
     }
 }

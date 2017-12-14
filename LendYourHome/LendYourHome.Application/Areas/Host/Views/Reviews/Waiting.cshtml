@@ -1,0 +1,32 @@
+﻿@model IEnumerable<LendYourHome.Services.ServiceModels.Users.UserForReviewServiceModel>
+
+@{
+    ViewData["Title"] = "Users For Review";
+}
+
+<div id="waiting-reviews" class="wrapper">
+    @if (Model.Any())
+    {
+        <h2 class="page-header centered">Your Guest That Are Waiting For Review</h2>
+        <div class="row">
+            <ul class="list-group col-sm-6 col-xs-offset-3">
+                @foreach (var user in Model)
+                {
+                    <li class="list-group-item centered">
+                        Leave a review for  
+                        <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">
+                            <img src="@user.ProfilePictureUrl" alt="profile-picture" class="img-responsive">
+                             @user.UserName
+                        </a>
+                        <a id="leav-review-btn" asp-area="Host" asp-controller="Reviews" asp-action="Create" asp-route-id="@user.Id" class="btn btn-warning">Review</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <h2 class="page-header centered">You Have No Guests Waiting For Review</h2>
+    }
+</div>
+

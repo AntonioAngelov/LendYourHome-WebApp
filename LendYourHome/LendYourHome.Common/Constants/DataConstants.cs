@@ -22,6 +22,8 @@
         public const int AddressMinLength = 5;
         public const int AddressMaxLength = 40;
 
+        public const int UserNameMaxLength = 20;
+
         public const string DefaultProfilePictureUrl =
             @"Pictures/ProfilePictures/default.jpg";
 

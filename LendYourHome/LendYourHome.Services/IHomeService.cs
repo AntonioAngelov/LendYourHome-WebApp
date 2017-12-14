@@ -16,6 +16,8 @@
 
         PersonalHomeDetailsServiceModel Find(string ownerId);
 
+        IEnumerable<HomeOfferServiceModel> TopSixByAverageRating();
+
         void Edit(
             string ownerId,
             int sleeps,

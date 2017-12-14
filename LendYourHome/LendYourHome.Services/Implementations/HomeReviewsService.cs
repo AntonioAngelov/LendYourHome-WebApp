@@ -47,5 +47,12 @@
                 .OrderByDescending(r => r.SubmitDate)
                 .ProjectTo<DoneHomeReviewServiceModel>()
                 .ToList();
+
+        public IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId)
+            => this.db.HomeReviews
+                .Where(r => r.HomeId == homeId)
+                .OrderByDescending(r => r.SubmitDate)
+                .ProjectTo<ReceivedHomeReviewServiceModel>()
+                .ToList();
     }
 }

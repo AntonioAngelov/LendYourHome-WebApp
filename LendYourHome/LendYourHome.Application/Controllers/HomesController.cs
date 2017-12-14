@@ -24,13 +24,15 @@
         private readonly IUserService users;
         private readonly UserManager<User> userManager;
         private readonly IPictureService pictureService;
+        private readonly IHomeReviewsService homeReviews;
 
-        public HomesController(IHomeService homes, IUserService users, UserManager<User> userManager, IPictureService pictureService)
+        public HomesController(IHomeService homes, IUserService users, UserManager<User> userManager, IPictureService pictureService, IHomeReviewsService homeReviews)
         {
             this.homes = homes;
             this.users = users;
             this.userManager = userManager;
             this.pictureService = pictureService;
+            this.homeReviews = homeReviews;
         }
 
         [HttpGet]
@@ -61,7 +63,7 @@
                 return this.View(model);
             }
 
-            if (model.Pictures == null)
+            if (model.Pictures == null || model.Pictures.Count == 0)
             {
                 this.ModelState.AddModelError("Pictures", "You need to add at least 1 picture of your home.");
                 return this.View(model);
@@ -152,7 +154,7 @@
 
             foreach (var home in homesOffers)
             {
-                home.PictureUrl = this.PreparePictureToDisplay(home.PictureUrl);
+                home.PictureUrl = this.pictureService.PreparePictureToDisplay(home.PictureUrl);
             }
 
             this.ViewData[ApplicationConstants.ViewDataHomeOffersKey] = homesOffers;
@@ -173,18 +175,32 @@
                 .Find(id);
 
             //prepare owner profile picture
-            homeInfo.OwnerPictureUrl = this.PreparePictureToDisplay(homeInfo.OwnerPictureUrl);
+            homeInfo.OwnerPictureUrl = this.pictureService.PreparePictureToDisplay(homeInfo.OwnerPictureUrl);
 
             //load pictures
             for (int i = 0; i < homeInfo.HomesPicturesUrls.Count(); i++)
             {
-                homeInfo.HomesPicturesUrls[i] = this.PreparePictureToDisplay(homeInfo.HomesPicturesUrls[i]);
+                homeInfo.HomesPicturesUrls[i] = this.pictureService.PreparePictureToDisplay(homeInfo.HomesPicturesUrls[i]);
+            }
+
+            //gt reviews for home
+            var reviews = this.homeReviews.GetReceivedReviews(id);
+
+            //load pictures for reviews
+            foreach (var review in reviews)
+            {
+                review.GuestProfilePictureUrl =
+                    this.pictureService.PreparePictureToDisplay(review.GuestProfilePictureUrl);
             }
 
             //set TempData for the booking
             this.TempData[ApplicationConstants.TempDataHomeOwnerNameKey] = homeInfo.OwnerName;
 
-            return this.View(homeInfo);
+            return this.View(new HomeDetailsViewModel
+            {
+                HomeInfo = homeInfo,
+                Reviews = reviews
+            });
         }
 
         private string GetAdequateHomePicturesPath()
@@ -264,12 +280,6 @@
                     minPrice = 30;
                     break;
             }
-        }
-
-        private string PreparePictureToDisplay(string relativePath)
-        {
-            var base64 = this.pictureService.GetBase64(relativePath);
-            return string.Format("data:image;base64,{0}", base64); 
         }
     }
 }

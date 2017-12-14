@@ -1,11 +1,11 @@
-﻿@model LendYourHome.Services.ServiceModels.Homes.PersonalHomeDetailsServiceModel
+﻿@model LendYourHome.Application.Areas.Host.Models.PersonalHomeDetailsViewModel
 
 @{
     ViewData["Title"] = "Your Home Details";
 }
 
 @{
-    var homeOfferStatus = Model.IsActiveOffer ? "ACTIVE" : "INACTIVE";
+    var homeOfferStatus = Model.HomeInfo.IsActiveOffer ? "ACTIVE" : "INACTIVE";
 }
 
 <div id="personal-home" class="wrapper">
@@ -15,7 +15,7 @@
         <div id="myCarousel" class="carousel slide col-sm-4 col-xs-10 col-xs-offset-4" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
-                @for (int i = 0; i < Model.HomePicturesUrls.Count(); i++)
+                @for (int i = 0; i < Model.HomeInfo.HomePicturesUrls.Count(); i++)
                 {
                     if (i == 0)
                     {
@@ -30,10 +30,10 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
-                @for (int i = 0; i < Model.HomePicturesUrls.Count(); i++)
+                @for (int i = 0; i < Model.HomeInfo.HomePicturesUrls.Count(); i++)
                 {
                     <div class="item @(i == 0 ? "active" : "")">
-                        <img src="@Model.HomePicturesUrls[i]" alt="Los Angeles" class="img-responsive">
+                        <img src="@Model.HomeInfo.HomePicturesUrls[i]" alt="Los Angeles" class="img-responsive">
                     </div>
                 }
             </div>
@@ -52,56 +52,83 @@
     <div class="row">
         <dl class="dl-horizontal col-sm-6 col-xs-offset-3">
             <dt>
-                @Html.DisplayNameFor(model => model.Country)
+                @Html.DisplayNameFor(model => model.HomeInfo.Country)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Country)
+                @Html.DisplayFor(model => model.HomeInfo.Country)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.HomeInfo.City)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.City)
+                @Html.DisplayFor(model => model.HomeInfo.City)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.HomeInfo.Address)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Address)
+                @Html.DisplayFor(model => model.HomeInfo.Address)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Sleeps)
+                @Html.DisplayNameFor(model => model.HomeInfo.Sleeps)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Sleeps)
+                @Html.DisplayFor(model => model.HomeInfo.Sleeps)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Bedrooms)
+                @Html.DisplayNameFor(model => model.HomeInfo.Bedrooms)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Bedrooms)
+                @Html.DisplayFor(model => model.HomeInfo.Bedrooms)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Bathrooms)
+                @Html.DisplayNameFor(model => model.HomeInfo.Bathrooms)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Bathrooms)
+                @Html.DisplayFor(model => model.HomeInfo.Bathrooms)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.PricePerNight)
+                @Html.DisplayNameFor(model => model.HomeInfo.PricePerNight)
             </dt>
             <dd>
-                &euro;@Html.DisplayFor(model => model.PricePerNight)
+                &euro;@Html.DisplayFor(model => model.HomeInfo.PricePerNight)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Additionalnformation)
+                @Html.DisplayNameFor(model => model.HomeInfo.Additionalnformation)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Additionalnformation)
+                @Html.DisplayFor(model => model.HomeInfo.Additionalnformation)
             </dd>
         </dl>
     </div>
     <div id="home-cotrol-buttons " class="centered">
         <a asp-area="Host" asp-controller="Home" asp-action="Edit" class="btn btn-warning">Edit</a>
     </div>
+    
+
+    @if (Model.Reviews.Any())
+    {
+        <h2 class="text-center page-header">Reviews</h2>
+        <div class="row">
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="col-sm-8 col-xs-offset-2 review-container">
+                    <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@review.EvaluatingGuestId">
+                        <img src="@review.GuestProfilePictureUrl" class="reviewer-picture" alt="profile-picture">
+                        <span> @review.GuestName <span class="pull-right text-muted">@review.SubmitDate.ToShortDateString()</span></span>
+                    </a>
+                    <div class="review-info">
+                        <div><strong>Evaluation:</strong> @review.Evaluation <span class="glyphicon glyphicon-star"></span></div>
+                        <div><strong>Title:</strong> @review.Title</div>
+                        <div>@review.AdditionalThoughts</div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h2 class="text-center page-header">There Are No Reviews For Your Home</h2>
+    }
+
 </div>

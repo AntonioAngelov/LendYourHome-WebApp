@@ -11,6 +11,7 @@
         public const string TempDataErrorMessageKey = "ErrorMessage";
         public const string TempDataHomeIdKey = "HomeId";
         public const string TempDataHomeOwnerNameKey = "OwnerName";
+        public const string TempDataGuestNameKey = "GuestName";
 
         //areas
         public const string GuestArea = "Guest";

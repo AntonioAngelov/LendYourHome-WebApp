@@ -12,6 +12,10 @@
 
         string GetHomePicturesFullPath(int homeId);
 
+        string GetUserProfilePictureFullPath(string userId);
+
         void EditHomePictures(int homeId, List<string> picturesUrls);
+
+        string PreparePictureToDisplay(string relativePath);
     }
 }

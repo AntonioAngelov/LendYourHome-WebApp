@@ -54,7 +54,7 @@
 </div>
 
 
-<section id="homes" class="bg-light-gray">
+<section id="homes" class="bg-light-gray .margin-from">
     <div class="container">
         @if (ViewData.ContainsKey(ApplicationConstants.ViewDataHomeOffersKey))
             {
@@ -68,13 +68,13 @@
             <div class="row">
                 @foreach (var home in ViewData[ApplicationConstants.ViewDataHomeOffersKey] as IEnumerable<HomeOfferServiceModel>)
                 {
-                    <div class="col-sm-4 col-sm-6 home-item">
+                    <div class="col-sm-4 home-item">
                         <a asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@home.Id" class="home-link" data-toggle="modal">
                             <img src="@home.PictureUrl" class="img-responsive" alt="">
                         </a>
                         <div class="home-caption">
                             <ul>
-                                <li class="focused"><strong>@home.AverageRating Average Rating</strong></li>
+                                <li class="focused"><strong>@((home.TotalRating / (home.TotalReviewsCount != 0 ? (double)home.TotalReviewsCount : 1)).ToString("F2"))  <span class="glyphicon glyphicon-star"></span>  <span class="text-muted">(@home.TotalReviewsCount Total Reviews)</span></strong></li>
                                 <li class="text-muted">In @home.Country, @home.City city</li>
                                 <li class="text-muted">@home.Sleeps sleeps - @home.Bedrooms bedrooms - @home.Bathrooms bathrooms</li>
                                 <li class="focused"><strong>&euro;@home.PricePerNight per Night</strong></li>

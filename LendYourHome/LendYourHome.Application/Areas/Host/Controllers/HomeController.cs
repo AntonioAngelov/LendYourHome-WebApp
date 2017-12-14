@@ -16,12 +16,14 @@
     public class HomeController : HostAreaController
     {
         private readonly IHomeService homes;
+        private readonly IHomeReviewsService homeReviews;
         private readonly UserManager<User> userManager;
         private readonly IPictureService pictureService;
 
-        public HomeController(IHomeService homes, UserManager<User> userManager, IPictureService pictureService)
+        public HomeController(IHomeService homes, IHomeReviewsService homeReviews, UserManager<User> userManager, IPictureService pictureService)
         {
             this.homes = homes;
+            this.homeReviews = homeReviews;
             this.userManager = userManager;
             this.pictureService = pictureService;
         }
@@ -35,10 +37,23 @@
 
             for (int i = 0; i < home.HomePicturesUrls.Count; i++)
             {
-                home.HomePicturesUrls[i] = this.PreparePictureToDisplay(home.HomePicturesUrls[i]);
+                home.HomePicturesUrls[i] = this.pictureService.PreparePictureToDisplay(home.HomePicturesUrls[i]);
             }
 
-            return this.View(home);
+            var reviews = this.homeReviews.GetReceivedReviews(home.Id);
+
+            //load reviews pctures
+            foreach (var review in reviews)
+            {
+                review.GuestProfilePictureUrl =
+                    this.pictureService.PreparePictureToDisplay(review.GuestProfilePictureUrl);
+            }
+
+            return this.View(new PersonalHomeDetailsViewModel
+            {
+                HomeInfo = home,
+                Reviews = reviews
+            });
         }
 
         [HttpGet]
@@ -131,12 +146,6 @@
                 model.PricePerNight);
 
             return RedirectToAction(nameof(this.Details));
-        }
-
-        private string PreparePictureToDisplay(string relativePath)
-        {
-            var base64 = this.pictureService.GetBase64(relativePath);
-            return string.Format("data:image;base64,{0}", base64);
         }
     }
 }
