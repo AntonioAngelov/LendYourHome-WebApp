@@ -3,10 +3,18 @@
 @using LendYourHome.Services.ServiceModels.Homes
 
 @model   LendYourHome.Application.Models.HomesViewModels.HomesSearchingViewModel
-
+    
 @{
     ViewData["Title"] = "Home Search";
 }
+
+@{
+    var pageKey = Model.PageListingData.Query == "" ? "page=" : "&page=";
+
+    var previousPageDisabled = Model.PageListingData.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextPageDisabled = (Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0) ? "disabled" : string.Empty;
+}
+
 <div class="row wrapper">
     <div class="col-sm-8 col-sm-offset-2">
         <form asp-controller="Homes" asp-action="Search" method="get">
@@ -57,7 +65,7 @@
 <section id="homes" class="bg-light-gray .margin-from">
     <div class="container">
         @if (ViewData.ContainsKey(ApplicationConstants.ViewDataHomeOffersKey))
-            {
+        {
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading page-header">Homes</h2>
@@ -85,6 +93,21 @@
             </div>
         }
     </div>
+    <br/>
+    <nav aria-label="..." class="centered-container">
+        <ul class="pagination pagination-lg">
+            <li class="page-item @previousPageDisabled">
+                <a class="page-link" href="/homes/search?@Model.PageListingData.Query@pageKey@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.PageListingData.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/homes/search?@Model.PageListingData.Query@pageKey@i">@i</a></li>
+            }
+            <li class="page-item @nextPageDisabled">
+                <a class="page-link" href="/homes/search?@Model.PageListingData.Query@pageKey@Model.PageListingData.NextPage">Next</a>
+            </li>
+        </ul>
+    </nav>
 </section>
 
 @section Scripts {

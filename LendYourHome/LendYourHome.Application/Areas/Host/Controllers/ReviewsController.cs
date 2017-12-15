@@ -1,10 +1,13 @@
 ﻿namespace LendYourHome.Application.Areas.Host.Controllers
 {
+    using System;
+    using Application.Models;
     using Common.Constants;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Models.Reviews;
     using Services;
     using Services.Files;
 
@@ -98,13 +101,24 @@
         }
 
         [HttpGet]
-        public IActionResult Done()
+        public IActionResult Done(int page = 1)
         {
             var hostId = this.userManager.GetUserId(this.User);
 
-            var reviews = this.guestReviews.Done(hostId);
+            var reviews = this.guestReviews.Done(page,
+                ApplicationConstants.DoneReviewsPageListingSize, 
+                hostId);
 
-            return this.View(reviews);
+            return this.View(new DoneGuestReviewsViewModel
+            {
+                Reviews = reviews,
+                PageListingData = new PageListingModel
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.guestReviews.TotalDoneByUser(hostId) /
+                                                   (double)ApplicationConstants.DoneReviewsPageListingSize)
+                }
+            });
         }
 
     }

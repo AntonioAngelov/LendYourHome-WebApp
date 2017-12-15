@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
     using Models.Enums;
     using Models.HomesViewModels;
     using Services;
@@ -117,7 +118,7 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Search(HomesSearchingViewModel model)
+        public IActionResult Search(HomesSearchingViewModel model, int page = 1)
         {
             if (!ModelState.IsValid)
             {
@@ -132,14 +133,16 @@
             int maxSleeps = int.MaxValue;
             decimal minPrice = 0;
             decimal maxPrice = decimal.MaxValue;
-            
+
             this.GetBedroomsRange(ref minBedrooms, ref maxBedrooms, model.Bedrooms);
             this.GetBathroomsRange(ref minBathrooms, ref maxBathrooms, model.Bathrooms);
             this.GetPricerange(ref minPrice, ref maxPrice, model.PriceRange);
             this.GetSleepsRange(ref minSleeps, ref maxSleeps, model.Sleeps);
 
             var homesOffers = this.homes
-                .All(model.Country,
+                .All(page,
+                ApplicationConstants.HomeOffersPageListingSize,
+                model.Country,
                 model.City,
                 minBedrooms,
                 maxBedrooms,
@@ -158,6 +161,36 @@
             }
 
             this.ViewData[ApplicationConstants.ViewDataHomeOffersKey] = homesOffers;
+            
+            //set pagination data
+            var query = HttpContext.Request.QueryString.Value;
+
+            if (string.IsNullOrEmpty(query) || query.StartsWith("?page"))
+            {
+                query = string.Empty;
+            }
+            else if (query.Contains("page="))
+            {
+                var tokens = query.Substring(1).Split('&');
+                query = string.Join("&", tokens.Take(tokens.Length - 1)).TrimStart('?');
+            }
+            
+            model.PageListingData = new PageListingModel
+            {
+                Query = query,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(this.homes.Total(model.Country,
+                                                   model.City,
+                                                   minBedrooms,
+                                                   maxBedrooms,
+                                                   minBathrooms,
+                                                   maxBathrooms,
+                                                   minSleeps,
+                                                   maxSleeps,
+                                                   minPrice,
+                                                   maxPrice) /
+                                               (double)ApplicationConstants.HomeOffersPageListingSize)
+            };
 
             return this.View(model);
         }
@@ -233,7 +266,7 @@
 
         public void GetBedroomsRange(ref int minBedrooms, ref int maxBedrooms, NumbersRange range)
         {
-                    switch (range)
+            switch (range)
             {
                 case NumbersRange.FromZeroToTwo:
                     maxBedrooms = 2;

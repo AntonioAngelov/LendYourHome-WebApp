@@ -1,6 +1,7 @@
 ﻿namespace LendYourHome.Services
 {
     using System.Collections.Generic;
+    using Common.Constants;
     using ServiceModels.Reviews;
 
     public interface IGuestReviewsService
@@ -16,6 +17,10 @@
             string additionalThoughts,
             string title);
 
-        IEnumerable<DoneGuestReviewServiceModel> Done(string hostId);
+        IEnumerable<DoneGuestReviewServiceModel> Done(int pageNumber,
+            int pageSize,
+            string hostId);
+
+        int TotalDoneByUser(string userId);
     }
 }

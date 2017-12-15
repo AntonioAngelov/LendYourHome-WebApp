@@ -113,7 +113,9 @@
                 .ProjectTo<HomeOfferServiceModel>()
                 .ToList();
 
-        public IEnumerable<HomeOfferServiceModel> All(string country,
+        public IEnumerable<HomeOfferServiceModel> All(int pageNumber, 
+            int pageSize, 
+            string country,
             string city,
             int minBedrooms,
             int maxBedrooms,
@@ -137,8 +139,6 @@
                     h.PricePerNight <= maxPrice &&
                     h.PricePerNight >= minPrice)
                 .ProjectTo<HomeOfferServiceModel>()
-                .OrderByDescending(h => h.TotalRating / (h.TotalReviewsCount != 0 ? (double)h.TotalReviewsCount : 1))
-                .ThenBy(h => h.PricePerNight)
                 .ToList();
 
             if (!string.IsNullOrEmpty(country))
@@ -155,7 +155,52 @@
                     .ToList();
             }
 
-            return homes;
+            return homes
+                .OrderByDescending(h => h.TotalRating / (h.TotalReviewsCount != 0 ? (double)h.TotalReviewsCount : 1))
+                .ThenBy(h => h.PricePerNight)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        public int Total(string country,
+            string city,
+            int minBedrooms,
+            int maxBedrooms,
+            int minBathrooms,
+            int maxBathrooms,
+            int minSleeps,
+            int maxSleeps,
+            decimal minPrice,
+            decimal maxPrice)
+        {
+            var homes = this.db
+                .Homes
+                .Where(h =>
+                    h.IsActiveOffer &&
+                    h.Bathrooms >= minBathrooms &&
+                    h.Bathrooms <= maxBathrooms &&
+                    h.Bedrooms >= minBedrooms &&
+                    h.Bedrooms <= maxBedrooms &&
+                    h.Sleeps >= minSleeps &&
+                    h.Sleeps <= maxSleeps &&
+                    h.PricePerNight <= maxPrice &&
+                    h.PricePerNight >= minPrice)
+                    .AsQueryable();
+
+            if (!string.IsNullOrEmpty(country))
+            {
+                homes = homes
+                    .Where(h => h.Country.ToLower().Contains(country.ToLower().Trim()));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                homes = homes
+                    .Where(h => h.City.ToLower().Contains(city.ToLower().Trim()));
+            }
+
+            return homes.Count();
         }
 
         public IEnumerable<HomeForReviewServiceModel> WaitingForReview(string guestId)

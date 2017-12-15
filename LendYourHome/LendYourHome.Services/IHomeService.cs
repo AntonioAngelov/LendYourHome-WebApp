@@ -44,7 +44,20 @@
             string ownerId);
 
         IEnumerable<HomeOfferServiceModel> All
-            (string country,
+            (int pageNumber, 
+            int pageSize,
+            string country,
+            string city,
+            int minBedrooms,
+            int maxBedrooms,
+            int minBathrooms,
+            int maxBathrooms,
+            int minSleeps,
+            int maxSleeps,
+            decimal minPrice,
+            decimal maxPrice);
+
+        int Total(string country,
             string city,
             int minBedrooms,
             int maxBedrooms,

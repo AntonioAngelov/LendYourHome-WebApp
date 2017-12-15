@@ -19,5 +19,7 @@
 
         [Display(Name = "Price Range")]
         public PriceRange PriceRange { get; set; }
+
+        public PageListingModel PageListingData { get; set; }
     }
 }

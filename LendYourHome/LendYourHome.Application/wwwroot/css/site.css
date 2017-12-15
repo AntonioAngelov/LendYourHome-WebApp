@@ -1,4 +1,8 @@
-﻿.centered-container {
+﻿li.disabled {
+    pointer-events: none;
+}
+
+.centered-container {
     margin: 0 auto;
     text-align: center;
 }
@@ -30,6 +34,15 @@ div.navbar.navbar-inverse.navbar-fixed-top {
     border-radius: 50px;
     padding: 0 20px;
 }
+
+.navbar-inverse .navbar-nav li a#search-homes-nav-btn {
+    color: #ffffff;
+    background-color: green;
+}
+
+    .navbar-inverse .navbar-nav li a#search-homes-nav-btn:hover {
+        background-color: #006622;
+    }
 
 .navbar-inverse .navbar-brand {
     color: #117bf3;
@@ -231,8 +244,6 @@ section h3.section-subheading {
 input[type="text"],
 input[type="password"],
 input[type="number"],
-textarea,
-textarea.form-control,
 select.form-control {
     height: 50px;
     margin: 0;

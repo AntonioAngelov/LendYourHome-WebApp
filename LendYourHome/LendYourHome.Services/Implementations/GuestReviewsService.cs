@@ -47,11 +47,20 @@
             this.db.SaveChanges();
         }
 
-        public IEnumerable<DoneGuestReviewServiceModel> Done(string hostId)
+        public IEnumerable<DoneGuestReviewServiceModel> Done(int pageNumber,
+            int pageSize, 
+            string hostId)
             => this.db.GuestReviews
                 .Where(r => r.HostId == hostId)
-                .ProjectTo<DoneGuestReviewServiceModel>()
                 .OrderByDescending(r => r.SubmitDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<DoneGuestReviewServiceModel>()
                 .ToList();
+
+        public int TotalDoneByUser(string userId)
+            => this.db
+            .GuestReviews
+            .Count(r => r.HostId == userId);
     }
 }

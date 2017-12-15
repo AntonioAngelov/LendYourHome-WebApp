@@ -1,4 +1,4 @@
-﻿@inject UserManager<User> UserManager;
+﻿@inject UserManager<User> UserManager
 
 @using LendYourHome.Common.Constants
 
@@ -49,7 +49,7 @@
                     {
                         <li><a asp-area="" asp-controller="Homes" asp-action="Create">Become Host</a></li>
                     }
-                    <li><a asp-area="" asp-controller="Homes" asp-action="Search">Search Homes</a></li>
+                    <li><a id="search-homes-nav-btn" asp-area="" asp-controller="Homes" asp-action="Search" class="btn">Search Homes</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="dropdown">

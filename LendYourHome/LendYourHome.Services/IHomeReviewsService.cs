@@ -14,8 +14,12 @@
             string additionalThoughts,
             string title);
 
-        IEnumerable<DoneHomeReviewServiceModel> Done(string userId);
+        IEnumerable<DoneHomeReviewServiceModel> Done(int pageNumber,
+            int pageSize, 
+            string userId);
 
         IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId);
+
+        int TotalDoneByUser(string userId);
     }
 }

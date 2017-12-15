@@ -41,10 +41,14 @@
             this.db.SaveChanges();
         }
 
-        public IEnumerable<DoneHomeReviewServiceModel> Done(string userId)
+        public IEnumerable<DoneHomeReviewServiceModel> Done(int pageNumber,
+            int pageSize, 
+            string userId)
             => this.db.HomeReviews
                 .Where(r => r.EvaluatingGuestId == userId)
                 .OrderByDescending(r => r.SubmitDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<DoneHomeReviewServiceModel>()
                 .ToList();
 
@@ -54,5 +58,9 @@
                 .OrderByDescending(r => r.SubmitDate)
                 .ProjectTo<ReceivedHomeReviewServiceModel>()
                 .ToList();
+
+        public int TotalDoneByUser(string userId)
+            => this.db.HomeReviews
+                .Count(r => r.EvaluatingGuestId == userId);
     }
 }

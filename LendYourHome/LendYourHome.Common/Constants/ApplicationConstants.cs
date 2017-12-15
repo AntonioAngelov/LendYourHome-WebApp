@@ -16,11 +16,16 @@
         //areas
         public const string GuestArea = "Guest";
         public const string HostArea = "Host";
+        public const string AdminArea = "Admin";
 
         //policy
         public const string HostEntryPolicy = "HostEntry";
 
         //view bag keys
         public const string ViewDataHomeOffersKey = "HomeOffers";
+
+        //pagination constants 
+        public const int HomeOffersPageListingSize = 9;
+        public const int DoneReviewsPageListingSize = 4;
     }
 }
