@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+.centered-container {
+    margin: 0 auto;
+    text-align: center;
+}
+
 body, html {
     height: 100%;
     width: 100%;

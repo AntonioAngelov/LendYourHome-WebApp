@@ -12,9 +12,10 @@ using System;
 namespace LendYourHome.Data.Migrations
 {
     [DbContext(typeof(LendYourHomeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171219132827_BanEndDateColumnToUsers")]
+    partial class BanEndDateColumnToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +147,7 @@ namespace LendYourHome.Data.Migrations
                     b.Property<string>("Address")
                         .HasMaxLength(40);
 
-                    b.Property<DateTime?>("BanEndDate");
+                    b.Property<DateTime>("BanEndDate");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

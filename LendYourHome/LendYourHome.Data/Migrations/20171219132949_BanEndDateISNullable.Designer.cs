@@ -12,9 +12,10 @@ using System;
 namespace LendYourHome.Data.Migrations
 {
     [DbContext(typeof(LendYourHomeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171219132949_BanEndDateISNullable")]
+    partial class BanEndDateISNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

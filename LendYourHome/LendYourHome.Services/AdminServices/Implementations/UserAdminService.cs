@@ -3,40 +3,73 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using AdminServiceModels;
     using AutoMapper.QueryableExtensions;
     using Data;
-    using Data.Models;
-    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class UserAdminService : IUserAdminService
     {
         private readonly LendYourHomeDbContext db;
-        private readonly UserManager<User> userManager;
 
-        public UserAdminService(LendYourHomeDbContext db, UserManager<User> userManager)
+        public UserAdminService(LendYourHomeDbContext db)
         {
             this.db = db;
-            this.userManager = userManager;
         }
 
-        public IEnumerable<ActiveUserAdminServiceModel> ActiveUsers()
+        public IEnumerable<ActiveUserAdminServiceModel> ActiveUsers(
+            int pageNumber,
+            int pageSize)
             => this.db
                 .Users
-                .Where(u => u.LockoutEnabled &&
-                            (u.LockoutEnd == null || u.LockoutEnd < DateTime.UtcNow))
+                .Where(u => u.BanEndDate == null ||
+                            u.BanEndDate.Value < DateTime.UtcNow)
+                .OrderByDescending(u => u.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<ActiveUserAdminServiceModel>()
                 .ToList();
 
-        public IEnumerable<ActiveUserAdminServiceModel> BannedUsers()
+        public IEnumerable<BannedUserAdminServiceModel> BannedUsers(
+            int pageNumber,
+            int pageSize)
+            => this.db
+                .Users
+                .Where(u => u.BanEndDate != null &&
+                            u.BanEndDate.Value >= DateTime.UtcNow)
+                .OrderBy(u => u.BanEndDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<BannedUserAdminServiceModel>()
+                .ToList();
+
+        public void BannUser(string userId, DateTime? banEndDate)
         {
-            return null;
+            var user = this.db.Users
+                .Include(u => u.Home)
+                .FirstOrDefault(u => u.Id == userId);
+
+            if (user.Home != null)
+            {
+                user.Home.IsActiveOffer = false;
+            }
+
+            user.BanEndDate = banEndDate;
+
+            this.db.SaveChanges();
+
         }
 
-        public async void BannUser(string userId, DateTime banEndDate)
-        {
-            
-        }
+        public int TotalActive()
+            => this.db
+                .Users
+                .Count(u => u.BanEndDate == null ||
+                            u.BanEndDate.Value < DateTime.UtcNow);
+
+        public int TotalBanned()
+            => this.db
+                .Users
+                .Count(u => u.BanEndDate != null &&
+                            u.BanEndDate.Value >= DateTime.UtcNow);
     }
 }

@@ -55,6 +55,14 @@
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            var banEndDate = this.users.GetBanEndDate(model.Username);
+
+            if (banEndDate > DateTime.UtcNow)
+            {
+                this.ModelState.AddModelError("Username", $"This account has been banned till {banEndDate.ToShortDateString()}");
+            }
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout

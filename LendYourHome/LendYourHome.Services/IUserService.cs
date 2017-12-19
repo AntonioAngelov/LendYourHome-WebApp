@@ -1,5 +1,6 @@
 ﻿namespace LendYourHome.Services
 {
+    using System;
     using System.Collections.Generic;
     using ServiceModels.Users;
 
@@ -30,5 +31,7 @@
             string profilePictureUrl);
 
         bool IsFreeEmail(string email);
+
+        DateTime GetBanEndDate(string userName);
     }
 }

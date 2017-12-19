@@ -98,5 +98,20 @@
             => !this.db
                 .Users
                 .Any(u => u.Email == email);
+
+        public DateTime GetBanEndDate(string userName)
+        {
+            var user = this.db.Users
+                .FirstOrDefault(u => u.UserName == userName);
+
+            if (user == null || user.BanEndDate == null)
+            {
+                return new DateTime(1,1,1);
+            }
+            else
+            {
+                return user.BanEndDate.Value;
+            }
+        } 
     }
 }

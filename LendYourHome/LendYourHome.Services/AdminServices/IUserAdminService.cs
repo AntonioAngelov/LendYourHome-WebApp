@@ -2,16 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using AdminServiceModels;
-    using Microsoft.AspNetCore.Identity;
 
     public interface IUserAdminService
     {
-        IEnumerable<ActiveUserAdminServiceModel> ActiveUsers();
+        IEnumerable<ActiveUserAdminServiceModel> ActiveUsers(
+            int pageNumber,
+            int pageSize);
 
-        IEnumerable<ActiveUserAdminServiceModel> BannedUsers();
+        IEnumerable<BannedUserAdminServiceModel> BannedUsers(
+            int pageNumber,
+            int pageSize);
 
-        void BannUser(string userId, DateTime banEndDate);
+        void BannUser(string userId, DateTime? banEndDate);
+
+        int TotalActive();
+
+        int TotalBanned();
     }
 }

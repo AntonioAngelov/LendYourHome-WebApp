@@ -108,6 +108,7 @@
 
         public IEnumerable<HomeOfferServiceModel> TopSixByAverageRating()
             => this.db.Homes
+                .Where(h => h.IsActiveOffer)
                 .OrderByDescending(h =>  h.Reviews.Sum(r => r.Evaluation) / (double)h.Reviews.Count)
                 .Take(6)
                 .ProjectTo<HomeOfferServiceModel>()

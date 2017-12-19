@@ -1,7 +1,7 @@
-﻿@model LendYourHome.Application.Areas.Admin.Models.ActiveUsersViewModel
+﻿@model LendYourHome.Application.Areas.Admin.Models.BannedUsersViewModel
 
 @{
-    ViewData["Title"] = "Active Users";
+    ViewData["Title"] = "Banned Users";
 }
 
 @{
@@ -10,8 +10,6 @@
     var nextPageDisabled = Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0 ? "disabled" : string.Empty;
 }
 
-
-
 <div class="wrapper">
     <h2 class="text-center page-header">@ViewData["Title"]</h2>
     <table class="table table-hover table-bordered">
@@ -19,22 +17,22 @@
         <tr>
             <th>#</th>
             <th>
-                @Html.DisplayNameFor(model => model.ActiveUsers.FirstOrDefault().UserName)
+                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActiveUsers.FirstOrDefault().Email)
+                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActiveUsers.FirstOrDefault().Address)
+                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActiveUsers.FirstOrDefault().IsHost)
+                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().BanEndDate)
             </th>
-            <th>Ban Till</th>
+            <th>Antions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var user in Model.ActiveUsers)
+        @foreach (var user in Model.BannedUsers)
         {
             <tr>
                 <td>@(i++)</td>
@@ -48,20 +46,28 @@
                     @Html.DisplayFor(modelItem => user.Address)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => user.IsHost)
+                    @user.BanEndDate.Value.ToShortDateString()
                 </td>
                 <td>
-                    <form asp-action="Ban">
+                    <form asp-action="Ban" class="row">
                         <input type="hidden" name="UserId" value="@user.Id" />
                         <input type="hidden" name="UserName" value="@user.UserName" />
-                        <div class="row">
+                        <div>
                             <div class="form-group col-sm-8">
                                 <input type="date" name="BanEndDate" class="form-control" />
                             </div>
                             <div class="col-sm-1"></div>
                             <div class="form-group centered col-sm-3">
-                                <input id="create-home-btn" type="submit" value="Ban User" class="btn btn-danger" />
+                                <input id="create-home-btn" type="submit" value="Change Ban Date" class="btn btn-danger" />
                             </div>
+                        </div>
+                    </form>
+                    <form asp-action="Unbann" class="row">
+                        <div class="col-sm-9"></div>
+                        <input type="hidden" name="UserId" value="@user.Id"/>
+                        <input type="hidden" name="UserName" value="@user.UserName"/>
+                        <div class="form-group centered col-sm-3">
+                            <input id="create-home-btn" type="submit" value="Unbann" class="btn btn-success"/>
                         </div>
                     </form>
                 </td>
@@ -69,20 +75,19 @@
         }
         </tbody>
     </table>
-    
+
     <nav aria-label="..." class="centered-container">
         <ul class="pagination pagination-lg">
             <li class="page-item @previousPageDisabled">
-                <a class="page-link" href="/admin/users/active?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
             </li>
             @for (int p = 1; p <= Model.PageListingData.TotalPages; p++)
             {
-                <li class="page-item @(p == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/admin/users/active?page=@p">@p</a></li>
+                <li class="page-item @(p == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/admin/users/banned?page=@p">@p</a></li>
             }
             <li class="page-item @nextPageDisabled">
-                <a class="page-link" href="/admin/users/active?page=@Model.PageListingData.NextPage">Next</a>
+                <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.NextPage">Next</a>
             </li>
         </ul>
     </nav>
-
 </div>

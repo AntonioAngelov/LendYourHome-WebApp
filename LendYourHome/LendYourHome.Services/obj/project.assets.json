@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "AutoMapper/6.2.1": {
+      "AutoMapper/6.2.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.3.0",
@@ -1560,7 +1560,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "AutoMapper": "6.2.1"
+          "AutoMapper": "6.2.2"
         },
         "compile": {
           "bin/placeholder/LendYourHome.Common.dll": {}
@@ -1588,12 +1588,12 @@
     }
   },
   "libraries": {
-    "AutoMapper/6.2.1": {
-      "sha512": "ZD9he/2wsNQbfnZJMc7Ijvz0hf2Lc6R8Tk97k8Q741flowTHd/YPxG8d5P0BVOJAPLVXjjX6IZ8l0u0A2l+K2g==",
+    "AutoMapper/6.2.2": {
+      "sha512": "eGKcnJdoF5rYMWPUaSPtlWdvua9xw4hnQN5kM/X4AXLGKghrtPIaMv+RYoA3sj0kyZ3X6wZ1Qj67F+u0pCCPaw==",
       "type": "package",
-      "path": "automapper/6.2.1",
+      "path": "automapper/6.2.2",
       "files": [
-        "automapper.6.2.1.nupkg.sha512",
+        "automapper.6.2.2.nupkg.sha512",
         "automapper.nuspec",
         "lib/net40/AutoMapper.dll",
         "lib/net40/AutoMapper.xml",

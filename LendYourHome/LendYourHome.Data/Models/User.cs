@@ -1,5 +1,6 @@
 ﻿namespace LendYourHome.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Identity;
@@ -16,6 +17,8 @@
         public string ProfilePictureUrl { get; set; }
 
         public Home Home { get; set; }
+
+        public DateTime? BanEndDate { get; set; }
 
         public List<Booking> BookingsMade { get; set; }
 

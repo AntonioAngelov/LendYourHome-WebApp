@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "9fcd0f61d14400dbe175ed03e815211e5c605426"
+    "signature": "b9453c66895a5376f9d669d0b4cb2dc17f157215"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,14 +9,14 @@
     ".NETStandard,Version=v2.0/": {
       "LendYourHome.Common/1.0.0": {
         "dependencies": {
-          "AutoMapper": "6.2.1",
+          "AutoMapper": "6.2.2",
           "NETStandard.Library": "2.0.0"
         },
         "runtime": {
           "LendYourHome.Common.dll": {}
         }
       },
-      "AutoMapper/6.2.1": {
+      "AutoMapper/6.2.2": {
         "dependencies": {
           "Microsoft.CSharp": "4.3.0",
           "NETStandard.Library": "2.0.0",
@@ -437,12 +437,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AutoMapper/6.2.1": {
+    "AutoMapper/6.2.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ZD9he/2wsNQbfnZJMc7Ijvz0hf2Lc6R8Tk97k8Q741flowTHd/YPxG8d5P0BVOJAPLVXjjX6IZ8l0u0A2l+K2g==",
-      "path": "automapper/6.2.1",
-      "hashPath": "automapper.6.2.1.nupkg.sha512"
+      "sha512": "sha512-eGKcnJdoF5rYMWPUaSPtlWdvua9xw4hnQN5kM/X4AXLGKghrtPIaMv+RYoA3sj0kyZ3X6wZ1Qj67F+u0pCCPaw==",
+      "path": "automapper/6.2.2",
+      "hashPath": "automapper.6.2.2.nupkg.sha512"
     },
     "Microsoft.CSharp/4.3.0": {
       "type": "package",
