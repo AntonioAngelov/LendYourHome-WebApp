@@ -543,12 +543,6 @@ button#register-button {
     margin-top: 25px;
 }
 
-@media (max-width: 767px) {
-
-    .inner-bg {
-        padding: 60px 0 110px 0;
-    }
-}
 
 /*Create home styles*/
 #create-home-btn {
@@ -697,3 +691,12 @@ td, th {
         height: 48px;
         font-size: 30px;
     }
+
+    #admin-panel-btn {
+        background-color: #e60000;
+        color: #ffffff;
+    }
+
+        #admin-panel-btn:hover {
+            background-color: #b30000;
+        }

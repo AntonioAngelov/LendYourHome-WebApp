@@ -25,6 +25,9 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
 
             builder.Entity<User>()
                 .HasOne(u => u.Home)

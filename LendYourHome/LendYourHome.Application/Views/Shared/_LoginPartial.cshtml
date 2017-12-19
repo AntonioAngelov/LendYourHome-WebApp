@@ -1,3 +1,4 @@
+@using LendYourHome.Common.Constants
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
     
@@ -24,6 +25,12 @@
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
             </li>
+            @if (User.IsInRole(ApplicationConstants.AdminRole))
+            {
+                <li>
+                    <a id="admin-panel-btn" asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn">Admin Panel</a>
+                </li>
+            }
         </ul>
     </form>
 }

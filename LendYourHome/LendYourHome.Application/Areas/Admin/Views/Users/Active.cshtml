@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LendYourHome.Services.AdminServices.AdminServiceModels.ActiveUserAdminServiceModel>
+
+@{
+    ViewData["Title"] = "Active Users";
+}
+
+@{
+    int i = 1;
+}
+
+<div class="wrapper">
+    <h2 class="text-center page-header">@ViewData["Title"]</h2>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsHost)
+            </th>
+            <th>Ban Till</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsHost)
+                </td>
+                <td>
+                    <form asp-action="Ban">
+                        <input type="hidden" name="UserId" value="@item.Id" />
+                        <div class="row">
+                            <div class="form-group col-sm-8">
+                                <input type="date" name="BanEndDate" class="form-control"/>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="form-group centered col-sm-3">
+                                <input id="create-home-btn" type="submit" value="Ban User" class="btn btn-danger"/>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Authentication;
 
     using Common.Constants;
+    using Services;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -21,15 +22,18 @@
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger _logger;
+        private readonly IUserService users;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IUserService users)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this.users = users;
         }
 
         [TempData]
@@ -209,9 +213,15 @@
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            if (!this.users.IsFreeEmail(model.Email))
+            {
+                ModelState.AddModelError("Email", "Email is taken.");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Username, Email = model.Email, Address = model.Address, ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl};
+                var user = new User { UserName = model.Username, Email = model.Email, Address = model.Address, ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl, AdditionalInformation = model.AdditionalInformation};
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

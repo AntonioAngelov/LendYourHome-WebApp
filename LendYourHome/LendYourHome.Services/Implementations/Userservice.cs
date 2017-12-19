@@ -93,5 +93,10 @@
 
             this.db.SaveChanges();
         }
+
+        public bool IsFreeEmail(string email)
+            => !this.db
+                .Users
+                .Any(u => u.Email == email);
     }
 }

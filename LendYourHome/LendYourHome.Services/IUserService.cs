@@ -28,5 +28,7 @@
             string additionaInfo,
             string address,
             string profilePictureUrl);
+
+        bool IsFreeEmail(string email);
     }
 }

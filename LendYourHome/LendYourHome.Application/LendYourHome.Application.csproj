@@ -30,15 +30,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Pictures\HomesPictures\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Admin\Views\Shared\_ViewImports.cshtml">
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\Admin\Views\Shared\_ViewStart.cshtml">
+    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
