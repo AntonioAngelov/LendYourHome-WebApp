@@ -1,0 +1,49 @@
+﻿@using LendYourHome.Application.Infrastructure.Extensions
+@model LendYourHome.Application.Areas.Admin.Models.LogsListingViewModel
+
+@{
+    ViewData["Title"] = "Admin Logs";
+}
+
+@{
+    var previousPageDisabled = Model.PageListingData.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextPageDisabled = Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0 ? "disabled" : string.Empty;
+}
+
+
+<div class="wrapper">
+    @if (Model.Logs.Any())
+    {
+        <h2 class="page-header centered text-center">@ViewData["Title"]</h2>
+        <div class="row">
+            <ul class="list-group col-sm-6 col-xs-offset-3">
+                @foreach (var log in Model.Logs)
+                {
+                    <li class="list-group-item centered">
+                        @log.AdminName @log.LogType.LogTypeDisplayName() @log.TargetedUserName <span class="text-muted pull-right">@log.SubmitDate.ToString()</span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <nav aria-label="..." class="centered-container">
+            <ul class="pagination pagination-lg">
+                <li class="page-item @previousPageDisabled">
+                    <a class="page-link" href="/admin/logs?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.PageListingData.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/admin/logs?page=@i">@i</a></li>
+                }
+                <li class="page-item @nextPageDisabled">
+                    <a class="page-link" href="/admin/logs?page=@Model.PageListingData.NextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <h2 class="page-header centered text-center">There Are No Logs</h2>
+    }
+</div>
+

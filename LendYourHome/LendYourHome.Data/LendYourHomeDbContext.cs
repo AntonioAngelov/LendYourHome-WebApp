@@ -18,6 +18,8 @@
 
         public DbSet<Picture> Pictures { get; set; }
 
+        public DbSet<AdminLog> AdminLogs { get; set; }
+
         public LendYourHomeDbContext(DbContextOptions<LendYourHomeDbContext> options)
             : base(options)
         {
@@ -69,6 +71,11 @@
                 .HasMany(h => h.Pictures)
                 .WithOne(p => p.Home)
                 .HasForeignKey(p => p.HomeId);
+
+            builder.Entity<AdminLog>()
+                .HasOne(l => l.Admin)
+                .WithMany(u => u.AdminLogs)
+                .HasForeignKey(l => l.AdminId);
 
             base.OnModelCreating(builder);
         }

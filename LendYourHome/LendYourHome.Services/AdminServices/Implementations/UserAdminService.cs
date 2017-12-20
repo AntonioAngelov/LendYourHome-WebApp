@@ -3,18 +3,24 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using AdminServiceModels;
     using AutoMapper.QueryableExtensions;
+    using Common.Constants;
     using Data;
+    using Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     public class UserAdminService : IUserAdminService
     {
         private readonly LendYourHomeDbContext db;
+        private readonly UserManager<User> userManager;
 
-        public UserAdminService(LendYourHomeDbContext db)
+        public UserAdminService(LendYourHomeDbContext db, UserManager<User> userManager)
         {
             this.db = db;
+            this.userManager = userManager;
         }
 
         public IEnumerable<ActiveUserAdminServiceModel> ActiveUsers(
@@ -49,7 +55,7 @@
                 .Include(u => u.Home)
                 .FirstOrDefault(u => u.Id == userId);
 
-            if (user.Home != null)
+            if (user.Home != null && banEndDate >= DateTime.UtcNow)
             {
                 user.Home.IsActiveOffer = false;
             }
@@ -71,5 +77,17 @@
                 .Users
                 .Count(u => u.BanEndDate != null &&
                             u.BanEndDate.Value >= DateTime.UtcNow);
+
+        public void MakeAdmin(string userId)
+        {
+            var user = this.db.Users.Find(userId);
+
+            Task
+                .Run(async () =>
+                {
+                    await this.userManager.AddToRoleAsync(user, ApplicationConstants.AdminRole);
+                })
+                .Wait();
+        }
     }
 }

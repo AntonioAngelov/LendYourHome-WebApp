@@ -1,4 +1,4 @@
-﻿namespace LendYourHome.Application.Areas.Admin.Models
+﻿namespace LendYourHome.Application.Areas.Admin.Models.Users
 {
     using System;
     using System.ComponentModel.DataAnnotations;

@@ -1,5 +1,6 @@
 ﻿namespace LendYourHome.Application.Infrastructure.Extensions
 {
+    using System;
     using System.Threading.Tasks;
     using Data;
     using Data.Models;
@@ -26,48 +27,55 @@
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
-                Task
-                    .Run(async () =>
-                    {
-                        var adminName = ApplicationConstants.AdminRole;
-
-                        var roles = new[]
+                try
+                {
+                    Task
+                        .Run(async () =>
                         {
-                            adminName,
-                            ApplicationConstants.HostRole
-                        };
+                            var adminName = ApplicationConstants.AdminRole;
 
-                        foreach (var role in roles)
-                        {
-                            var hasRoles = await roleManager.RoleExistsAsync(role);
-
-                            if (!hasRoles)
+                            var roles = new[]
                             {
-
-                                await roleManager.CreateAsync(new IdentityRole
-                                {
-                                    Name = role
-                                });
-                            }
-                        }
-
-                        var adminUser = await userManager.FindByNameAsync(adminName);
-
-                        if (adminUser == null)
-                        {
-                            adminUser = new User
-                            {
-                                UserName = adminName,
-                                Email = "admin@admin.admin",
-                                ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl
+                                adminName,
+                                ApplicationConstants.HostRole
                             };
 
-                            await userManager.CreateAsync(adminUser, "admin123");
+                            foreach (var role in roles)
+                            {
+                                var hasRoles = await roleManager.RoleExistsAsync(role);
 
-                            await userManager.AddToRoleAsync(adminUser, adminName);
-                        }
-                    })
-                .Wait();
+                                if (!hasRoles)
+                                {
+
+                                    await roleManager.CreateAsync(new IdentityRole
+                                    {
+                                        Name = role
+                                    });
+                                }
+                            }
+
+                            var adminUser = await userManager.FindByNameAsync(adminName);
+
+                            if (adminUser == null)
+                            {
+                                adminUser = new User
+                                {
+                                    UserName = adminName,
+                                    Email = "admin@admin.admin",
+                                    ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl
+                                };
+
+                                await userManager.CreateAsync(adminUser, "admin123");
+
+                                await userManager.AddToRoleAsync(adminUser, adminName);
+                            }
+                        })
+                        .Wait();
+                }
+                catch (Exception ex)
+                {
+                    
+                }
             }
 
             return app; 

@@ -20,12 +20,14 @@
 
         public DateTime? BanEndDate { get; set; }
 
-        public List<Booking> BookingsMade { get; set; }
+        public List<Booking> BookingsMade { get; set; } = new List<Booking>();
 
-        public List<HomeReview> HomeReviewsMade { get; set; }
+        public List<HomeReview> HomeReviewsMade { get; set; } = new List<HomeReview>();
 
-        public List<GuestReview> GuestReviewsMade { get; set; }
+        public List<GuestReview> GuestReviewsMade { get; set; } = new List<GuestReview>();
 
-        public List<GuestReview> GuestReviewsReceived { get; set; }
+        public List<GuestReview> GuestReviewsReceived { get; set; } = new List<GuestReview>();
+
+        public List<AdminLog> AdminLogs { get; set; } = new List<AdminLog>();
     }
 }

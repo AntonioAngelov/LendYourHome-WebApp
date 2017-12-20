@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using AdminServiceModels;
 
     public interface IUserAdminService
@@ -19,5 +20,7 @@
         int TotalActive();
 
         int TotalBanned();
+
+        void MakeAdmin(string userId);
     }
 }

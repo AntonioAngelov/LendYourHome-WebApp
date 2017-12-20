@@ -13,9 +13,10 @@ using System;
 namespace LendYourHome.Data.Migrations
 {
     [DbContext(typeof(LendYourHomeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171219175859_AddedAdminLogs")]
+    partial class AddedAdminLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

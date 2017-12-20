@@ -1,4 +1,5 @@
-﻿@model LendYourHome.Application.Areas.Admin.Models.BannedUsersViewModel
+﻿@using LendYourHome.Application.Areas.Admin.Models.Users
+@model LendYourHome.Application.Areas.Admin.Models.Users.BannedUsersViewModel
 
 @{
     ViewData["Title"] = "Banned Users";
@@ -11,83 +12,90 @@
 }
 
 <div class="wrapper">
-    <h2 class="text-center page-header">@ViewData["Title"]</h2>
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>
-                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().BanEndDate)
-            </th>
-            <th>Antions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var user in Model.BannedUsers)
-        {
-            <tr>
-                <td>@(i++)</td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Address)
-                </td>
-                <td>
-                    @user.BanEndDate.Value.ToShortDateString()
-                </td>
-                <td>
-                    <form asp-action="Ban" class="row">
-                        <input type="hidden" name="UserId" value="@user.Id" />
-                        <input type="hidden" name="UserName" value="@user.UserName" />
-                        <div>
-                            <div class="form-group col-sm-8">
-                                <input type="date" name="BanEndDate" class="form-control" />
-                            </div>
-                            <div class="col-sm-1"></div>
-                            <div class="form-group centered col-sm-3">
-                                <input id="create-home-btn" type="submit" value="Change Ban Date" class="btn btn-danger" />
-                            </div>
-                        </div>
-                    </form>
-                    <form asp-action="Unbann" class="row">
-                        <div class="col-sm-9"></div>
-                        <input type="hidden" name="UserId" value="@user.Id"/>
-                        <input type="hidden" name="UserName" value="@user.UserName"/>
-                        <div class="form-group centered col-sm-3">
-                            <input id="create-home-btn" type="submit" value="Unbann" class="btn btn-success"/>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    @if (Model.BannedUsers.Any())
+    {
+        <h2 class="text-center page-header">@ViewData["Title"]</h2>
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().BanEndDate)
+                    </th>
+                    <th>Antions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.BannedUsers)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.Address)
+                        </td>
+                        <td>
+                            @user.BanEndDate.Value.ToShortDateString()
+                        </td>
+                        <td>
+                            <form asp-action="Ban" class="row">
+                                <input type="hidden" name="UserId" value="@user.Id" />
+                                <input type="hidden" name="UserName" value="@user.UserName" />
+                                <div>
+                                    <div class="form-group col-sm-8">
+                                        <input type="date" name="BanEndDate" class="form-control" />
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                    <div class="form-group centered col-sm-3">
+                                        <input id="create-home-btn" type="submit" value="Change Ban Date" class="btn btn-danger" />
+                                    </div>
+                                </div>
+                            </form>
+                            <form asp-action="Unban" class="row">
+                                <div class="col-sm-9"></div>
+                                <input type="hidden" name="UserId" value="@user.Id" />
+                                <input type="hidden" name="UserName" value="@user.UserName" />
+                                <div class="form-group centered col-sm-3">
+                                    <input id="create-home-btn" type="submit" value="Unbann" class="btn btn-success" />
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <nav aria-label="..." class="centered-container">
-        <ul class="pagination pagination-lg">
-            <li class="page-item @previousPageDisabled">
-                <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
-            </li>
-            @for (int p = 1; p <= Model.PageListingData.TotalPages; p++)
-            {
-                <li class="page-item @(p == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/admin/users/banned?page=@p">@p</a></li>
-            }
-            <li class="page-item @nextPageDisabled">
-                <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.NextPage">Next</a>
-            </li>
-        </ul>
-    </nav>
+        <nav aria-label="..." class="centered-container">
+            <ul class="pagination pagination-lg">
+                <li class="page-item @previousPageDisabled">
+                    <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int p = 1; p <= Model.PageListingData.TotalPages; p++)
+                {
+                    <li class="page-item @(p == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/admin/users/banned?page=@p">@p</a></li>
+                }
+                <li class="page-item @nextPageDisabled">
+                    <a class="page-link" href="/admin/users/banned?page=@Model.PageListingData.NextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <h2 class="text-center page-header">There Are No Banned Users</h2>
+    }
 </div>

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LendYourHome.Application
 {
+    using Areas.Admin.Filters;
     using AutoMapper;
     using Common.Constants;
     using Data;
@@ -54,6 +55,7 @@ namespace LendYourHome.Application
             });
 
             services.AddScoped<IAuthorizationHandler, RoleHandler>();
+            services.AddScoped<LogAttribute>();
 
             services.AddAuthentication().AddFacebook(options =>
             {

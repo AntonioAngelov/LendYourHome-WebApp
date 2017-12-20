@@ -3,8 +3,10 @@
     using System;
     using Application.Models;
     using Common.Constants;
+    using Filters;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Models.Users;
     using Services.AdminServices;
 
     public class UsersController : AdminAreaController
@@ -54,6 +56,7 @@
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(LogAttribute))]
         public IActionResult Ban(BanUserViewModel model)
         {
             this.users.BannUser(model.UserId, model.BanEndDate);
@@ -65,12 +68,25 @@
         }
 
         [HttpPost]
-        public IActionResult Unbann(UnbannUserViewModel model)
+        [ServiceFilter(typeof(LogAttribute))]
+        public IActionResult Unban(UserFormModel model)
         {
             this.users.BannUser(model.UserId, null);
 
             TempData[ApplicationConstants.TempDataSuccessMessageKey] =
                 $"You Unbanned {model.UserName}!";
+
+            return RedirectToAction("Active");
+        }
+
+        [HttpPost]
+        [ServiceFilter(typeof(LogAttribute))]
+        public IActionResult MakeAdmin(UserFormModel model)
+        {
+            this.users.MakeAdmin(model.UserId);
+
+            TempData[ApplicationConstants.TempDataSuccessMessageKey] =
+                $"You made {model.UserName} an Admin!";
 
             return RedirectToAction("Active");
         }

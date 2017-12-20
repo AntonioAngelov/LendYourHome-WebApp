@@ -1,6 +1,6 @@
-﻿namespace LendYourHome.Application.Areas.Admin.Models
+﻿namespace LendYourHome.Application.Areas.Admin.Models.Users
 {
-    public class UnbannUserViewModel
+    public class UserFormModel
     {
         public string UserId { get; set; }
 
