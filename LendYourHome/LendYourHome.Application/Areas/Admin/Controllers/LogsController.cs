@@ -5,7 +5,6 @@
     using Common.Constants;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using Services;
     using Services.AdminServices;
 
     public class LogsController : AdminAreaController

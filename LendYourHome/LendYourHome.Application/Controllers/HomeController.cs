@@ -28,7 +28,7 @@
             {
                 home.PictureUrl = this.pictureService.PreparePictureToDisplay(home.PictureUrl);
             }
-            //todo fix the ordering
+             
             var topSixGuests = this.users.TopSixGuestsByAverageRating();
 
             foreach (var guest in topSixGuests)
@@ -41,21 +41,7 @@
                 TopHomes = topSixHomes,
                 TopGuests = topSixGuests
             });
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
+        }        
 
         public IActionResult Error()
         {
