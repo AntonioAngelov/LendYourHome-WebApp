@@ -3,9 +3,9 @@
     using AutoMapper;
     using LendYourHome.Application.Infrastructure.Mapping;
 
-    public class Setup
+    public class Tests
     {
-        private static bool testsInitialized = false;
+        private static bool testsInitialized;
 
         public static void Initialize()
         {

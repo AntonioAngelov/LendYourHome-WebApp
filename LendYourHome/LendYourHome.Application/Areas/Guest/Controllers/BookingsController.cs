@@ -33,7 +33,6 @@
             //if user refreshes the page the name of the owner must still show
             this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNameKey);
 
-
             return this.View();
         }
 

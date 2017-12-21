@@ -6,20 +6,15 @@
     using Xunit;
     using FluentAssertions;
     using LendYourHome.Application.Models.UsersViewModels;
+    using LendYourHome.Services.ServiceModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Mocks.Services;
     using Moq;
-    using Services.ServiceModels.Users;
 
     public class UsersControllerTest
     {
-        public UsersControllerTest()
-        {
-            Setup.Initialize();
-        }
-
         [Fact]
         public void Edit_ShouldBeOnlyForAuthorizedUsers()
         {

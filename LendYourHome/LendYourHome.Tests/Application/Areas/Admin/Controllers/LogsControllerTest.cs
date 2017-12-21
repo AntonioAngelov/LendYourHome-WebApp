@@ -5,10 +5,10 @@
     using FluentAssertions;
     using LendYourHome.Application.Areas.Admin.Controllers;
     using LendYourHome.Application.Areas.Admin.Models;
+    using LendYourHome.Services.AdminServices.AdminServiceModels;
     using Microsoft.AspNetCore.Mvc;
     using Mocks.Services.Admin;
     using Moq;
-    using Services.AdminServices.AdminServiceModels;
     using Xunit;
 
     public class LogsControllerTest

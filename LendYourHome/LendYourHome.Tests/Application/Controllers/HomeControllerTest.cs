@@ -4,11 +4,11 @@
     using FluentAssertions;
     using LendYourHome.Application.Controllers;
     using LendYourHome.Application.Models;
+    using LendYourHome.Services.ServiceModels.Homes;
+    using LendYourHome.Services.ServiceModels.Users;
     using Microsoft.AspNetCore.Mvc;
     using Mocks.Services;
     using Moq;
-    using Services.ServiceModels.Homes;
-    using Services.ServiceModels.Users;
     using Xunit;
 
     public class HomeControllerTest
