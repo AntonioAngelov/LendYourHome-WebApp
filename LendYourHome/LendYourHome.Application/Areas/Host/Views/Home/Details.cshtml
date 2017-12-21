@@ -8,6 +8,11 @@
     var homeOfferStatus = Model.HomeInfo.IsActiveOffer ? "ACTIVE" : "INACTIVE";
 }
 
+@{
+    var previousPageDisabled = Model.PageListingData.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextPageDisabled = Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0 ? "disabled" : string.Empty;
+}
+
 <div id="personal-home" class="wrapper">
     <h2 class="page-header centered">@ViewData["Title"]</h2>
     <div class="row">
@@ -125,6 +130,21 @@
                 </div>
             }
         </div>
+
+        <nav aria-label="..." class="centered-container">
+            <ul class="pagination pagination-lg">
+                <li class="page-item @previousPageDisabled">
+                    <a class="page-link" href="/host/home/details?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.PageListingData.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/host/home/details?page=@i">@i</a></li>
+                }
+                <li class="page-item @nextPageDisabled">
+                    <a class="page-link" href="/host/home/details?page=@Model.PageListingData.NextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
     }
     else
     {

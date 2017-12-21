@@ -634,3 +634,10 @@ a {
         line-height: 38px;
     }
 }
+
+/*responsive*/
+@media (max-width: 959px) {
+#myCarousel {
+    height: auto;
+}
+}

@@ -18,8 +18,11 @@
             int pageSize, 
             string userId);
 
-        IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId);
+        IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId, int pageNumber,
+            int pageSize);
 
         int TotalDoneByUser(string userId);
+
+        int TotalReceivedForHome(int homeId);
     }
 }

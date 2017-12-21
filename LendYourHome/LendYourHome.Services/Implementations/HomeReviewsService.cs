@@ -52,15 +52,23 @@
                 .ProjectTo<DoneHomeReviewServiceModel>()
                 .ToList();
 
-        public IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId)
+        public IEnumerable<ReceivedHomeReviewServiceModel> GetReceivedReviews(int homeId, int pageNumber,
+            int pageSize)
             => this.db.HomeReviews
                 .Where(r => r.HomeId == homeId)
                 .OrderByDescending(r => r.SubmitDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<ReceivedHomeReviewServiceModel>()
                 .ToList();
 
         public int TotalDoneByUser(string userId)
             => this.db.HomeReviews
                 .Count(r => r.EvaluatingGuestId == userId);
+
+        public int TotalReceivedForHome(int homeId)
+            => this.db
+                .HomeReviews
+                .Count(r => r.HomeId == homeId);
     }
 }

@@ -4,22 +4,25 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common.Constants;
     using Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
     using Models.UsersViewModels;
     using Services;
     using Services.Files;
 
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService users;
         private readonly IGuestReviewsService guestReviews;
         private readonly IPictureService pictureService;
         private readonly UserManager<User> userManager;
-
+        
         public UsersController(IUserService users, IGuestReviewsService guestReviews, IPictureService pictureService, UserManager<User> userManager)
         {
             this.users = users;
@@ -29,7 +32,7 @@
         }
 
         [HttpGet]
-        public IActionResult Details(string id)
+        public IActionResult Details(string id, int page = 1)
         {
             if (!this.users.Exists(id))
             {
@@ -39,7 +42,7 @@
             var userInfo = this.users.Details(id);
             userInfo.ProfilePictureUrl = this.pictureService.PreparePictureToDisplay(userInfo.ProfilePictureUrl);
 
-            var receivedGuestReviews = this.guestReviews.GetReceivedReviews(id);
+            var receivedGuestReviews = this.guestReviews.GetReceivedReviews(id, page , ApplicationConstants.ReviewsPageListinSize);
 
             //load pictures for all reviews 
             foreach (var review in receivedGuestReviews)
@@ -51,12 +54,18 @@
             return this.View(new UserDetailsViewModel
             {
                 UserInfo = userInfo,
-                ReviewsReceived = receivedGuestReviews
+                ReviewsReceived = receivedGuestReviews,
+                PageListingData = new PageListingModel
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.guestReviews.TotalReceivedByUser(id) /
+                                                   (double)ApplicationConstants.ReviewsPageListinSize),
+                    Query = id
+                }
             });
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Edit()
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -73,7 +82,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Edit(UserEditViewModel model, IFormFile picture)
         {
             var userId = this.userManager.GetUserId(this.User);

@@ -15,69 +15,68 @@
     @if (Model.BannedUsers.Any())
     {
         <h2 class="text-center page-header">@ViewData["Title"]</h2>
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().UserName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Address)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().BanEndDate)
-                    </th>
-                    <th>Antions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.BannedUsers)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
                     <tr>
-                        <td>@(i++)</td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.UserName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => user.Address)
-                        </td>
-                        <td>
-                            @user.BanEndDate.Value.ToShortDateString()
-                        </td>
-                        <td>
-                            <form asp-action="Ban" class="row">
-                                <input type="hidden" name="UserId" value="@user.Id" />
-                                <input type="hidden" name="UserName" value="@user.UserName" />
-                                <div>
-                                    <div class="form-group col-sm-8">
+                        <th>#</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().Address)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BannedUsers.FirstOrDefault().BanEndDate)
+                        </th>
+                        <th>Antions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.BannedUsers)
+                {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.Address)
+                            </td>
+                            <td>
+                                @user.BanEndDate.Value.ToShortDateString()
+                            </td>
+                            <td>
+                                <form asp-action="Ban" class="row">
+                                    <input type="hidden" name="UserId" value="@user.Id" />
+                                    <input type="hidden" name="UserName" value="@user.UserName" />
+                                    <div class="form-group col-md-8">
                                         <input type="date" name="BanEndDate" class="form-control" />
                                     </div>
-                                    <div class="col-sm-1"></div>
-                                    <div class="form-group centered col-sm-3">
+                                    <div class="form-group centered col-md-3">
                                         <input id="create-home-btn" type="submit" value="Change Ban Date" class="btn btn-danger" />
                                     </div>
-                                </div>
-                            </form>
-                            <form asp-action="Unban" class="row">
-                                <div class="col-sm-9"></div>
-                                <input type="hidden" name="UserId" value="@user.Id" />
-                                <input type="hidden" name="UserName" value="@user.UserName" />
-                                <div class="form-group centered col-sm-3">
-                                    <input id="create-home-btn" type="submit" value="Unbann" class="btn btn-success" />
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                                </form>
+                                <form asp-action="Unban" class="row">
+                                    <div class="col-md-9"></div>
+                                    <input type="hidden" name="UserId" value="@user.Id" />
+                                    <input type="hidden" name="UserName" value="@user.UserName" />
+                                    <div class="form-group centered col-md-3">
+                                        <input id="create-home-btn" type="submit" value="Unbann" class="btn btn-success" />
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
         <nav aria-label="..." class="centered-container">
             <ul class="pagination pagination-lg">

@@ -197,7 +197,7 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, int page = 1)
         {
             if (!this.homes.Exists(id))
             {
@@ -217,7 +217,7 @@
             }
 
             //gt reviews for home
-            var reviews = this.homeReviews.GetReceivedReviews(id);
+            var reviews = this.homeReviews.GetReceivedReviews(id, page, ApplicationConstants.ReviewsPageListinSize);
 
             //load pictures for reviews
             foreach (var review in reviews)
@@ -232,7 +232,14 @@
             return this.View(new HomeDetailsViewModel
             {
                 HomeInfo = homeInfo,
-                Reviews = reviews
+                Reviews = reviews,
+                PageListingData = new PageListingModel
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.homeReviews.TotalReceivedForHome(id) /
+                                                   (double)ApplicationConstants.ReviewsPageListinSize),
+                    Query = id.ToString()
+                }
             });
         }
 

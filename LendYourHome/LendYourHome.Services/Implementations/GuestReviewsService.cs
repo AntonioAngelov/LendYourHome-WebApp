@@ -17,10 +17,12 @@
             this.db = db;
         }
 
-        public IEnumerable<ReceivedGuestReviewServiceModel> GetReceivedReviews(string userId)
+        public IEnumerable<ReceivedGuestReviewServiceModel> GetReceivedReviews(string userId, int pageNumber, int pageSize)
             => this.db.GuestReviews
                 .Where(r => r.EvaluatedGuestId == userId)
                 .OrderByDescending(r => r.SubmitDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<ReceivedGuestReviewServiceModel>()
                 .ToList();
 
@@ -62,5 +64,9 @@
             => this.db
             .GuestReviews
             .Count(r => r.HostId == userId);
+
+        public int TotalReceivedByUser(string userId)
+            => this.db.GuestReviews
+                .Count(r => r.EvaluatedGuestId == userId);
     }
 }

@@ -5,6 +5,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Application.Models;
+    using Common.Constants;
     using Data.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -29,7 +31,7 @@
         }
 
         [HttpGet]
-        public IActionResult Details()
+        public IActionResult Details(int page = 1)
         {
             var userId = userManager.GetUserId(this.User);
 
@@ -40,7 +42,7 @@
                 home.HomePicturesUrls[i] = this.pictureService.PreparePictureToDisplay(home.HomePicturesUrls[i]);
             }
 
-            var reviews = this.homeReviews.GetReceivedReviews(home.Id);
+            var reviews = this.homeReviews.GetReceivedReviews(home.Id, page, ApplicationConstants.ReviewsPageListinSize);
 
             //load reviews pctures
             foreach (var review in reviews)
@@ -52,7 +54,14 @@
             return this.View(new PersonalHomeDetailsViewModel
             {
                 HomeInfo = home,
-                Reviews = reviews
+                Reviews = reviews,
+                PageListingData = new PageListingModel()
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.homeReviews.TotalReceivedForHome(home.Id) /
+                                                   (double)ApplicationConstants.ReviewsPageListinSize)
+                }
+
             });
         }
 

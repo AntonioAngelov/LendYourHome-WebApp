@@ -27,5 +27,6 @@
         //pagination constants 
         public const int HomeOffersPageListingSize = 9;
         public const int DoneReviewsPageListingSize = 4;
+        public const int ReviewsPageListinSize = 5;
     }
 }

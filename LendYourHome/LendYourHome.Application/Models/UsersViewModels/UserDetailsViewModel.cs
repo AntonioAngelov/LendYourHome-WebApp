@@ -6,6 +6,8 @@
 
     public class UserDetailsViewModel
     {
+        public PageListingModel PageListingData { get; set; }
+
         public UserDetailsServiceModel UserInfo { get; set; }
 
         public IEnumerable<ReceivedGuestReviewServiceModel> ReviewsReceived { get; set; }

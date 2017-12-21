@@ -6,6 +6,8 @@
 
     public class HomeDetailsViewModel
     {
+        public PageListingModel PageListingData { get; set; }
+
         public HomeDetailsServiceModel HomeInfo { get; set; }
 
         public IEnumerable<ReceivedHomeReviewServiceModel> Reviews { get; set; }

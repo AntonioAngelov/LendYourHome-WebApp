@@ -319,8 +319,8 @@
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new User { UserName = model.Username, Email = model.Email, Address = model.Address, ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl };
-                var result = await _userManager.CreateAsync(user);
+                var user = new User { UserName = model.Username, Email = model.Email, Address = model.Address, AdditionalInformation = model.AdditionalInformation, ProfilePictureUrl = DataConstants.DefaultProfilePictureUrl };
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);

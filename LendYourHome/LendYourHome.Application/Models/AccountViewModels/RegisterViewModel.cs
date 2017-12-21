@@ -15,9 +15,10 @@
         public string Email { get; set; }
         
         [MaxLength(AddressMaxLength)]
+        [Display(Prompt = "*optional")]
         public string Address { get; set; }
 
-        [Display(Name = "Additional Info")]
+        [Display(Name = "Additional Info", Prompt = "*optional")]
         [MaxLength(AdditionalInfoMaxLength)]
         public string AdditionalInformation { get; set; }
 

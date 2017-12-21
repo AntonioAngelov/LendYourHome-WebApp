@@ -6,7 +6,8 @@
 
     public interface IGuestReviewsService
     {
-        IEnumerable<ReceivedGuestReviewServiceModel> GetReceivedReviews(string userId);
+        IEnumerable<ReceivedGuestReviewServiceModel> GetReceivedReviews(string userIdint, int pageNumber,
+        int pageSize);
 
         bool CanCreateReview(string hostId, string guestid);
 
@@ -22,5 +23,7 @@
             string hostId);
 
         int TotalDoneByUser(string userId);
+
+        int TotalReceivedByUser(string userId);
     }
 }
