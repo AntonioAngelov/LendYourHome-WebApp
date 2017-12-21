@@ -96,7 +96,7 @@
             //redirect to home with success message
             this.TempData[ApplicationConstants.TempDataSuccessMessageKey] = $"Successfully Reviewed {this.TempData[ApplicationConstants.TempDataHomeOwnerNameKey]}'s home";
 
-            return RedirectToAction("Index", "Home", new {area = ""});
+            return RedirectToAction(nameof(this.Done));
 
         }
 

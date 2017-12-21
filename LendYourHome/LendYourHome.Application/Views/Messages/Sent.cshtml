@@ -1,0 +1,57 @@
+﻿@model LendYourHome.Application.Models.Messages.SentMessagesViewModel
+
+@{
+    ViewData["Title"] = "Sent Messages";
+}
+
+@{
+    var previousPageDisabled = Model.PageListingData.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextPageDisabled = Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0 ? "disabled" : string.Empty;
+}
+
+<div id="done-reviews" class="wrapper">
+    @if (Model.Messages.Any())
+    {
+        <h2 class="page-header centered">@ViewData["Title"]</h2>
+        <div class="row">
+            <div class="col-sm-6 col-xs-offset-3 list-group">
+                @foreach (var message in Model.Messages)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            To
+                            <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@message.RecipientId">@message.RecipientUsername</a>
+                            : @message.Subject <span class="text-muted pull-right">On @message.SentDate.ToShortDateString()</span>
+                        </div>
+                        <div class="panel-body">
+                            @message.Text
+                            <div class="row message-buttons-container">
+                                <a asp-area="" asp-controller="Messages" asp-action="New" asp-route-id="@message.RecipientId" class="btn btn-warning">New Message</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <nav aria-label="..." class="centered-container">
+            <ul class="pagination pagination-lg">
+                <li class="page-item @previousPageDisabled">
+                    <a class="page-link" href="/messages/sent?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.PageListingData.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/messages/sent?page=@i">@i</a></li>
+                }
+                <li class="page-item @nextPageDisabled">
+                    <a class="page-link" href="/messages/sent?page=@Model.PageListingData.NextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <h2 class="page-header centered">Your Have No Sent Messages</h2>
+    }
+</div>
+

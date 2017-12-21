@@ -1,0 +1,39 @@
+﻿@using LendYourHome.Common.Constants
+@model LendYourHome.Application.Models.MessagesViewModels.MessageCreateViewModel
+
+
+@{
+    ViewData["Title"] = "New Message";
+}
+
+<div class="wrapper">
+    <h2 class="page-header text-center">@ViewData["Title"]</h2>
+    <div class="row">
+        <div class="col-sm-4 col-xs-4 col-xs-offset-4">
+            <form asp-action="New">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="recepient" class="control-label">To</label>
+                    <input id="recepient" class="form-control" disabled="disabled" value="@TempData[ApplicationConstants.TempDataMessageRecepienUserNameKey]"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Subject" class="control-label"></label>
+                    <input asp-for="Subject" class="form-control" required="required"/>
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Text" class="control-label"></label>
+                    <textarea asp-for="Text" class="form-control" required="required"></textarea>
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" value="Send" class="btn btn-warning col-sm-6 col-xs-6 col-xs-offset-3"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@{
+    var t = TempData;
+}
+

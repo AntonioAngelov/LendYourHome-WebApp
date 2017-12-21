@@ -22,6 +22,11 @@
         public const int AddressMinLength = 5;
         public const int AddressMaxLength = 40;
 
+        public const int MessageSubjectMaxLength = 30;
+        public const int MessageSubjectMinLength = 5;
+        
+        public const int MessageTextMinLength = 10;
+
         public const int UserNameMaxLength = 20;
 
         public const string DefaultProfilePictureUrl =

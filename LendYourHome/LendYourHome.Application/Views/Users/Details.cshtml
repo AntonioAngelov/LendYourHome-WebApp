@@ -44,9 +44,12 @@
 
     @if (Model.UserInfo.Ishost)
     {
-       <div class="centered-container"><a class="btn btn-primary" asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@Model.UserInfo.HomeId">View Home</a></div>
+        <div class="centered-container"><a class="btn btn-primary user-details-button" asp-area="" asp-controller="Homes" asp-action="Details" asp-route-id="@Model.UserInfo.HomeId">View Home</a></div>
     }
-    <hr/>
+
+    <div id="details-message-btn" class="centered-container"><a class="btn btn-warning user-details-button" asp-area="" asp-controller="Messages" asp-action="New" asp-route-id="@Model.UserInfo.Id">Message</a></div>
+
+    <hr />
 
     @if (Model.ReviewsReceived.Any())
     {

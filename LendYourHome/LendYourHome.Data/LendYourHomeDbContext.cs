@@ -20,6 +20,8 @@
 
         public DbSet<AdminLog> AdminLogs { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public LendYourHomeDbContext(DbContextOptions<LendYourHomeDbContext> options)
             : base(options)
         {
@@ -76,6 +78,16 @@
                 .HasOne(l => l.Admin)
                 .WithMany(u => u.AdminLogs)
                 .HasForeignKey(l => l.AdminId);
+
+            builder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(u => u.MessagesSent)
+                .HasForeignKey(m => m.SenderId);
+
+            builder.Entity<Message>()
+                .HasOne(m => m.Recipient)
+                .WithMany(u => u.MessagesReceived)
+                .HasForeignKey(m => m.RecipientId);
 
             base.OnModelCreating(builder);
         }

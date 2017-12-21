@@ -1,4 +1,4 @@
-﻿namespace LendYourHome.Application.Models.AccountViewModels
+﻿ namespace LendYourHome.Application.Models.AccountViewModels
 {
     using System.ComponentModel.DataAnnotations;
 

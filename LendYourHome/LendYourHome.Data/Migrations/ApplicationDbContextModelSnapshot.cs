@@ -111,6 +111,33 @@ namespace LendYourHome.Data.Migrations
                     b.ToTable("Homes");
                 });
 
+            modelBuilder.Entity("LendYourHome.Data.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("RecipientId");
+
+                    b.Property<string>("SenderId");
+
+                    b.Property<DateTime>("SentDate");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("LendYourHome.Data.Models.Picture", b =>
                 {
                     b.Property<int>("Id")
@@ -381,6 +408,17 @@ namespace LendYourHome.Data.Migrations
                     b.HasOne("LendYourHome.Data.Models.User", "Owner")
                         .WithOne("Home")
                         .HasForeignKey("LendYourHome.Data.Models.Home", "OwnerId");
+                });
+
+            modelBuilder.Entity("LendYourHome.Data.Models.Message", b =>
+                {
+                    b.HasOne("LendYourHome.Data.Models.User", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId");
+
+                    b.HasOne("LendYourHome.Data.Models.User", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("LendYourHome.Data.Models.Picture", b =>

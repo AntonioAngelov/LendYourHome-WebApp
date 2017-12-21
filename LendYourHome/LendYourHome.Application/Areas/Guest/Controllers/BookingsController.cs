@@ -50,8 +50,7 @@
             {
                 return this.NotFound();
             }
-
-            //if user refreshes the page the name of the owner must still show
+            
             this.TempData.Keep(ApplicationConstants.TempDataHomeOwnerNameKey);
             this.TempData.Keep(ApplicationConstants.TempDataHomeIdKey);
 
@@ -74,7 +73,7 @@
             TempData[ApplicationConstants.TempDataSuccessMessageKey] =
                 $"Booking request for {TempData[ApplicationConstants.TempDataHomeOwnerNameKey]}'s home sent!";
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction(nameof(this.Pending));
         }
 
         [HttpGet]

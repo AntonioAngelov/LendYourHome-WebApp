@@ -29,5 +29,9 @@
         public List<GuestReview> GuestReviewsReceived { get; set; } = new List<GuestReview>();
 
         public List<AdminLog> AdminLogs { get; set; } = new List<AdminLog>();
+
+        public List<Message> MessagesSent { get; set; } = new List<Message>();
+
+        public List<Message> MessagesReceived { get; set; } = new List<Message>();
     }
 }

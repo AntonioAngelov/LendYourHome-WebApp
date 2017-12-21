@@ -27,13 +27,16 @@
         [Display(Name = "Total Price")]
         public decimal TotalPrice { get; set; }
 
+        public string HostId { get; set; }
+
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<Booking, GuestBookingServiceModel>()
                 .ForMember(gpb => gpb.OwnerUsername, cfg => cfg.MapFrom(b => b.Home.Owner.UserName))
                 .ForMember(gpb => gpb.GuestUsername, cfg => cfg.MapFrom(b => b.Guest.UserName))
                 .ForMember(gpb => gpb.PricePerNight, cfg => cfg.MapFrom(b => b.Home.PricePerNight))
-                .ForMember(gpb => gpb.TotalPrice, cfg => cfg.MapFrom(b => b.CheckOutDate.Value.Subtract(b.CheckInDate.Value).Days * b.Home.PricePerNight));
+                .ForMember(gpb => gpb.TotalPrice, cfg => cfg.MapFrom(b => b.CheckOutDate.Value.Subtract(b.CheckInDate.Value).Days * b.Home.PricePerNight))
+                .ForMember(gpb => gpb.HostId, cfg => cfg.MapFrom(b => b.Home.OwnerId));
         }
     }
 }

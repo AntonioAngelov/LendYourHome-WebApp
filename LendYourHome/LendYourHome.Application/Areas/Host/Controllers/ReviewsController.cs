@@ -82,7 +82,7 @@
             {
                 this.TempData[ApplicationConstants.TempDataErrorMessageKey] = "Permission Denied";
 
-                return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction(nameof(this.Done));
             }
 
             //save review

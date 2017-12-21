@@ -12,6 +12,8 @@
         public const string TempDataHomeIdKey = "HomeId";
         public const string TempDataHomeOwnerNameKey = "OwnerName";
         public const string TempDataGuestNameKey = "GuestName";
+        public const string TempDataMessageRecepientIdKey = "RecepientId";
+        public const string TempDataMessageRecepienUserNameKey = "RecepientIUserName";
 
         //areas
         public const string GuestArea = "Guest";
@@ -28,5 +30,6 @@
         public const int HomeOffersPageListingSize = 9;
         public const int DoneReviewsPageListingSize = 4;
         public const int ReviewsPageListinSize = 5;
+        public const int MessagesPageListingSize = 6;
     }
 }

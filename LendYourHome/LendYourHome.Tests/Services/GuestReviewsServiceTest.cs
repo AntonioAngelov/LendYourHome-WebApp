@@ -8,6 +8,7 @@
     using LendYourHome.Services.Implementations;
     using LendYourHome.Services.ServiceModels.Reviews;
     using Mocks;
+    using Moq;
     using Xunit;
 
     public class GuestReviewsServiceTest
@@ -55,7 +56,7 @@
             var service = new GuestReviewsService(db);
 
             //Act
-            var result = service.GetReceivedReviews(guestId);
+            var result = service.GetReceivedReviews(guestId, It.IsAny<int>(), It.IsAny<int>());
 
             //Assert
             result

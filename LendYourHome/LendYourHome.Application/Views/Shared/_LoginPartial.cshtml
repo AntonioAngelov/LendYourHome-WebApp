@@ -20,6 +20,14 @@
                     <li>
                         <a asp-area="" asp-controller="Users" asp-action="Edit" asp-route-id="@currentUserId">Edit</a>
                     </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-toggle test" data-toggle="dropdown" href="#">Messages
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Messages" asp-action="Sent">Sent</a></li>
+                            <li><a asp-area="" asp-controller="Messages" asp-action="Received">Received</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li>
