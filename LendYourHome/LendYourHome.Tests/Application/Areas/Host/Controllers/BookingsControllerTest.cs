@@ -5,6 +5,7 @@
     using System.Security.Claims;
     using FluentAssertions;
     using LendYourHome.Application.Areas.Host.Controllers;
+    using LendYourHome.Application.Areas.Host.Models.Bookings;
     using LendYourHome.Services.ServiceModels.Bookings;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -46,7 +47,7 @@
 
             var bookingService = BookingServiceMock.New;
             bookingService
-                .Setup(bs => bs.HostBookings(It.Is<string>(id => id == userId), false))
+                .Setup(bs => bs.HostBookings(It.IsAny<int>(), It.IsAny<int>(), It.Is<string>(id => id == userId), false))
                 .Returns(expectedBookings);
 
             var controller = new BookingsController(bookingService.Object, userManager.Object, pictureService.Object);
@@ -61,7 +62,7 @@
                 .Subject
                 .Model
                 .Should()
-                .Match(m => m.As<IEnumerable<HostBookingsServiceModel>>().Equals(expectedBookings));
+                .Match(m => m.As<HostBookingsViewModel>().Bookings.Equals(expectedBookings));
         }
 
         [Fact]
@@ -96,7 +97,7 @@
 
             var bookingService = BookingServiceMock.New;
             bookingService
-                .Setup(bs => bs.HostBookings(It.Is<string>(id => id == userId), true))
+                .Setup(bs => bs.HostBookings(It.IsAny<int>(), It.IsAny<int>(), It.Is<string>(id => id == userId), true))
                 .Returns(expectedBookings);
 
             var controller = new BookingsController(bookingService.Object, userManager.Object, pictureService.Object);
@@ -111,7 +112,7 @@
                 .Subject
                 .Model
                 .Should()
-                .Match(m => m.As<IEnumerable<HostBookingsServiceModel>>().Equals(expectedBookings));
+                .Match(m => m.As<HostBookingsViewModel>().Bookings.Equals(expectedBookings));
         }
     }
 }

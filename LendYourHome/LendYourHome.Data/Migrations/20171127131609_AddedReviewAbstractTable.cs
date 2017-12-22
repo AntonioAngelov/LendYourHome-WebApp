@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace LendYourHome.Data.Migrations
+﻿namespace LendYourHome.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddedReviewAbstractTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

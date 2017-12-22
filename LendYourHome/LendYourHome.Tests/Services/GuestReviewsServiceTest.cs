@@ -56,7 +56,7 @@
             var service = new GuestReviewsService(db);
 
             //Act
-            var result = service.GetReceivedReviews(guestId, It.IsAny<int>(), It.IsAny<int>());
+            var result = service.GetReceivedReviews(guestId, 1, int.MaxValue);
 
             //Assert
             result

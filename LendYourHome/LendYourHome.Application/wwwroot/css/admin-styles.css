@@ -26,6 +26,11 @@ body, html {
         background-color: #b30000;
     }
 
+.table {
+    max-width: 98%;
+    word-wrap: break-word;
+}
+
 /*footer*/
 
 #footerwrap {

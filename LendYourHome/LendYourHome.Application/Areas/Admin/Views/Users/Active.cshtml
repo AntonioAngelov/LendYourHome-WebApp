@@ -21,7 +21,7 @@
 <div class="wrapper">
     <h2 class="text-center page-header">@ViewData["Title"]</h2>
     <div class="table-responsive">
-        <table class="table table-hover table-bordered table-striped">
+        <table class="table table-hover table-bordered table-striped centered-container">
             <thead>
                 <tr>
                     <th>#</th>
@@ -71,7 +71,7 @@
                             @if (!UserManager.IsInRoleAsync(UserManager.FindByIdAsync(user.Id).Result, ApplicationConstants.AdminRole).Result)
                             {
                                 <form asp-action="MakeAdmin" class="row">
-                                    <div class="col-md-9"></div>
+                                    <div class="col-md-8"></div>
                                     <input type="hidden" name="UserId" value="@user.Id" />
                                     <input type="hidden" name="UserName" value="@user.UserName" />
                                     <div class="form-group centered col-md-3">

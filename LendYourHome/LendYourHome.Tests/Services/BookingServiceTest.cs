@@ -8,6 +8,7 @@
     using FluentAssertions;
     using LendYourHome.Services.Implementations;
     using Mocks;
+    using Moq;
     using Xunit;
 
     public class BookingServiceTest
@@ -187,7 +188,7 @@
             var service = new BookingService(db);
 
             //Act
-            var result = service.HostBookings(hostID, true);
+            var result = service.HostBookings(1, int.MaxValue, hostID, true);
 
             //Assert
             result
@@ -206,7 +207,7 @@
             var service = new BookingService(db);
 
             //Act
-            var result = service.HostBookings(hostID, false);
+            var result = service.HostBookings(1, 5, hostID, false);
 
             //Assert
             result

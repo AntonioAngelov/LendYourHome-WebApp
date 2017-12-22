@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
-namespace LendYourHome.Data.Migrations
+﻿namespace LendYourHome.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+
     public partial class AddedUserReviewBookingTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

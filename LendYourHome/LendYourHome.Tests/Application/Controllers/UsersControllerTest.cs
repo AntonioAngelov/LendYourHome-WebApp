@@ -16,15 +16,13 @@
     public class UsersControllerTest
     {
         [Fact]
-        public void Edit_ShouldBeOnlyForAuthorizedUsers()
+        public void UsersController_ShouldBeForAuthorizedUsers()
         {
             //Arrange
-            var method = typeof(UsersController)
-                .GetMethods()
-                .FirstOrDefault(m => m.Name == nameof(UsersController.Edit) && !m.GetParameters().Any());
+            var contoller = typeof(UsersController);
 
             //Act
-            var attributes = method.GetCustomAttributes(true);
+            var attributes = contoller.GetCustomAttributes(true);
 
             //Assert
             attributes
