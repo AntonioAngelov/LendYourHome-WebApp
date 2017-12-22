@@ -22,22 +22,28 @@
     </div>
     <br />
 
-    @if (Model.UserInfo.AdditionalInformation != null && Model.UserInfo.Address != null)
+    @if (Model.UserInfo.AdditionalInformation != null || Model.UserInfo.Address != null)
     {
         <div class="row">
             <dl class="dl-horizontal col-sm-6 col-xs-offset-3">
-                <dt>
-                    @Html.DisplayNameFor(model => model.UserInfo.Address)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.UserInfo.Address)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.UserInfo.AdditionalInformation)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.UserInfo.AdditionalInformation)
-                </dd>
+                @if (Model.UserInfo.Address != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserInfo.Address)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UserInfo.Address)
+                    </dd>
+                }
+                @if (Model.UserInfo.AdditionalInformation != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserInfo.AdditionalInformation)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.UserInfo.AdditionalInformation)
+                    </dd>
+                }
             </dl>
         </div>
     }

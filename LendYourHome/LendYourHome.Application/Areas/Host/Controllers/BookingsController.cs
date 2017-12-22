@@ -1,9 +1,12 @@
 ﻿namespace LendYourHome.Application.Areas.Host.Controllers
 {
+    using System;
+    using Application.Models;
     using Common.Constants;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Bookings;
     using Services;
     using Services.Files;
 
@@ -21,9 +24,13 @@
         }
 
         [HttpGet]
-        public IActionResult Pending()
+        public IActionResult Pending(int page = 1)
         {
-            var pendingBookings = this.bookings.HostBookings(this.userManager.GetUserId(this.User), false);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var pendingBookings = this.bookings.HostBookings(page,
+                ApplicationConstants.HomeBookingPageListingSize,
+                userId, false);
 
             //load pictures of guests
 
@@ -32,7 +39,16 @@
                 booking.GuestProfilePictureUrl =  this.pictureService.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
             }
 
-            return this.View(pendingBookings);
+            return this.View(new HostBookingsViewModel
+            {
+                Bookings = pendingBookings,
+                PageListingData = new PageListingModel
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.bookings.TotalBookingsByHost(userId, false) /
+                                                   (double)ApplicationConstants.HomeBookingPageListingSize)
+                }
+            });
         }
 
         [HttpPost]
@@ -56,9 +72,12 @@
         }
 
         [HttpGet]
-        public IActionResult Approved()
+        public IActionResult Approved(int page = 1)
         {
-            var approvedBookings = this.bookings.HostBookings(this.userManager.GetUserId(this.User), true);
+            var userId = this.userManager.GetUserId(this.User);
+
+            var approvedBookings = this.bookings.HostBookings(page,
+                ApplicationConstants.HomeBookingPageListingSize, userId, true);
 
             //load pictures of guests
 
@@ -67,7 +86,16 @@
                 booking.GuestProfilePictureUrl = this.pictureService.PreparePictureToDisplay(booking.GuestProfilePictureUrl);
             }
 
-            return this.View(approvedBookings);
+            return this.View(new HostBookingsViewModel
+            {
+                Bookings = approvedBookings,
+                PageListingData = new PageListingModel
+                {
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(this.bookings.TotalBookingsByHost(userId, true) /
+                                                   (double)ApplicationConstants.HomeBookingPageListingSize)
+                }
+            });
         }
     }
 }

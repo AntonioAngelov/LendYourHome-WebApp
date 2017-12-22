@@ -1,57 +1,79 @@
-﻿@model IEnumerable<LendYourHome.Services.ServiceModels.Bookings.HostBookingsServiceModel>
+﻿@model LendYourHome.Application.Areas.Host.Models.Bookings.HostBookingsViewModel
 
 @{
     ViewData["Title"] = "Home Approved Bookings";
 }
 
+@{
+    var previousPageDisabled = Model.PageListingData.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextPageDisabled = Model.PageListingData.CurrentPage == Model.PageListingData.TotalPages || Model.PageListingData.TotalPages == 0 ? "disabled" : string.Empty;
+}
+
 <div id="host-bokings" class="wrapper">
 
-    @if (Model.Any())
+    @if (Model.Bookings.Any())
     {
         <h2 class="page-header centered">Approved Booking Requests For Your Home</h2>
 
         <div class="row">
             <table id="pending-table" class="table-hover table-bordered col-sm-8 col-xs-offset-2">
                 <thead>
-                    <tr>
-                        <th>
-                            By
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CheckInDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CheckOutDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TotalPrice)
-                        </th>
-                    </tr>
+                <tr>
+                    <th>
+                        By
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().CheckInDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().CheckOutDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().TotalPrice)
+                    </th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var booking in Model)
+                @foreach (var booking in Model.Bookings)
                 {
-                        <tr>
-                            <td class="guest-info">
-                                <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@booking.GuestId">
-                                    <img src="@booking.GuestProfilePictureUrl" alt="profile-picture" class="img-responsive">
-                                    @booking.GuestUsername
-                                </a>
-                            </td>
-                            <td>
-                                @booking.CheckInDate.ToShortDateString()
-                            </td>
-                            <td>
-                                @booking.CheckOutDate.ToShortDateString()
-                            </td>
-                            <td>
-                                &euro;@Html.DisplayFor(modelItem => booking.TotalPrice)
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td class="guest-info">
+                            <a asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@booking.GuestId">
+                                <img src="@booking.GuestProfilePictureUrl" alt="profile-picture" class="img-responsive">
+                                @booking.GuestUsername
+                            </a>
+                        </td>
+                        <td>
+                            @booking.CheckInDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @booking.CheckOutDate.ToShortDateString()
+                        </td>
+                        <td>
+                            &euro;@Html.DisplayFor(modelItem => booking.TotalPrice)
+                        </td>
+                        <td><a asp-area="" asp-controller="Messages" asp-action="New" asp-route-id="@booking.GuestId" class="btn btn-warning col-md-6">Message Guest</a></td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
+
+        <nav aria-label="..." class="centered-container">
+            <ul class="pagination pagination-lg">
+                <li class="page-item @previousPageDisabled">
+                    <a class="page-link" href="/host/bookings/approved?page=@Model.PageListingData.PreviousPage" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.PageListingData.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageListingData.CurrentPage ? "active" : string.Empty)"><a class="page-link" href="/host/bookings/approved?page=@i">@i</a></li>
+                }
+                <li class="page-item @nextPageDisabled">
+                    <a class="page-link" href="/host/bookings/approved?page=@Model.PageListingData.NextPage">Next</a>
+                </li>
+            </ul>
+        </nav>
     }
     else
     {

@@ -3,8 +3,8 @@
 @using LendYourHome.Common.Constants
 
 @{
-   var user = await UserManager.GetUserAsync(User);
-   var userIsHost = user != null && UserManager.IsInRoleAsync(user, ApplicationConstants.HostRole).Result;
+    var user = await UserManager.GetUserAsync(User);
+    var userIsHost = user != null && UserManager.IsInRoleAsync(user, ApplicationConstants.HostRole).Result;
 }
 
 <!DOCTYPE html>
@@ -16,104 +16,119 @@
 
     <environment include="Development">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-        <link rel="stylesheet" href="~/css/site.css"/>
-        <link rel="stylesheet" href="~/css/custom.css"/>
-        <link rel="icon" type="image/png" href="~/favicon.ico" sizes="32x32">  
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/custom.css" />
+        <link rel="icon" type="image/png" href="~/favicon.ico" sizes="32x32">
     </environment>
     <environment exclude="Development">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-        <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true"/>
-        <link rel="icon" type="image/png" href="~/favicon.ico" sizes="32x32">  
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+        <link rel="icon" type="image/png" href="~/favicon.ico" sizes="32x32">
     </environment>
 </head>
 <body data-spy="scroll" data-offset="0" data-target="#navbar-main">
-<div id="navbar-main">
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LendYourHome</a>
+    <div id="navbar-main">
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LendYourHome</a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a id="search-homes-nav-btn" asp-area="" asp-controller="Homes" asp-action="Search" class="btn">Search Homes</a></li>
+                        @if (User.Identity.IsAuthenticated && !userIsHost)
+                        {
+                            <li><a asp-area="" asp-controller="Homes" asp-action="Create">Become Host</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Bookings
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="Guest" asp-controller="Bookings" asp-action="Pending">Pending</a></li>
+                                    <li><a asp-area="Guest" asp-controller="Bookings" asp-action="Approved">Approved</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Reviews
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="Guest" asp-controller="Reviews" asp-action="Done">Done</a></li>
+                                    <li><a asp-area="Guest" asp-controller="Reviews" asp-action="Waiting">Waiting</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && userIsHost)
+                        {
+                            <li id="manage-home-dropdown" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Manage Home
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="Host" asp-controller="Home" asp-action="Edit">Edit</a></li>
+                                    <li><a asp-area="Host" asp-controller="Home" asp-action="Details">Details</a></li>
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-toggle test" data-toggle="dropdown" href="#">
+                                            Bookings
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-area="Host" asp-controller="Bookings" asp-action="Pending">Pending</a></li>
+                                            <li><a asp-area="Host" asp-controller="Bookings" asp-action="Approved">Approved</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-toggle test" data-toggle="dropdown" href="#">
+                                            Guests
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-area="Host" asp-controller="Reviews" asp-action="Done">Reviewed</a></li>
+                                            <li><a asp-area="Host" asp-controller="Reviews" asp-action="Waiting">Waiting For Review</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    @await Html.PartialAsync("_LoginPartial")
+                </div><!--/.nav-collapse -->
             </div>
-            <div class="navbar-collapse collapse" id="navbar">
-                <ul class="nav navbar-nav">
-                    <li><a id="search-homes-nav-btn" asp-area="" asp-controller="Homes" asp-action="Search" class="btn">Search Homes</a></li>
-                    @if (User.Identity.IsAuthenticated && !userIsHost)
-                    {
-                        <li><a asp-area="" asp-controller="Homes" asp-action="Create">Become Host</a></li>
-                    }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookings
-                                <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Guest" asp-controller="Bookings" asp-action="Pending">Pending</a></li>
-                                <li><a asp-area="Guest" asp-controller="Bookings" asp-action="Approved">Approved</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Reviews
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Guest" asp-controller="Reviews" asp-action="Done">Done</a></li>
-                                <li><a asp-area="Guest" asp-controller="Reviews" asp-action="Waiting">Waiting</a></li>
-                            </ul>
-                        </li>
-                    }
-                    @if (User.Identity.IsAuthenticated && userIsHost)
-                    {
-                        <li id="manage-home-dropdown" class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Home
-                                <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Host" asp-controller="Home" asp-action="Details">Details</a></li>
-                                <li><a asp-area="Host" asp-controller="Bookings" asp-action="Pending">Pending Bookings</a></li>
-                                <li><a asp-area="Host" asp-controller="Bookings" asp-action="Approved">Approved Bookings</a></li>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-toggle test" data-toggle="dropdown" href="#">Guests
-                                        <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a asp-area="Host" asp-controller="Reviews" asp-action="Done">Reviewed</a></li>
-                                        <li><a asp-area="Host" asp-controller="Reviews" asp-action="Waiting">Waiting For Review</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div><!--/.nav-collapse -->
         </div>
     </div>
-</div>
-@if (TempData.ContainsKey(ApplicationConstants.TempDataSuccessMessageKey))
-{
-    <div class="alert alert-success">
-        @TempData[ApplicationConstants.TempDataSuccessMessageKey]
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    </div>
-}
+    @if (TempData.ContainsKey(ApplicationConstants.TempDataSuccessMessageKey))
+    {
+        <div class="alert alert-success">
+            @TempData[ApplicationConstants.TempDataSuccessMessageKey]
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+    }
 
-@if (TempData.ContainsKey(ApplicationConstants.TempDataErrorMessageKey))
-{
-    <div class="alert alert-danger">
-        @TempData[ApplicationConstants.TempDataErrorMessageKey]
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    </div>
-}
+    @if (TempData.ContainsKey(ApplicationConstants.TempDataErrorMessageKey))
+    {
+        <div class="alert alert-danger">
+            @TempData[ApplicationConstants.TempDataErrorMessageKey]
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+    }
 
     @RenderBody()
 
@@ -124,44 +139,44 @@
         </div>
     </div>
 
-<environment include="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        $(document).ready(function () {
-            $('.dropdown-submenu a.test').on("click", function (e) {
-                $(this).next('ul').toggle();
-                e.stopPropagation();
-                e.preventDefault();
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script>
+            $(document).ready(function () {
+                $('.dropdown-submenu a.test').on("click", function (e) {
+                    $(this).next('ul').toggle();
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
             });
-        });
-    </script>
-</environment>
-<environment exclude="Development">
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-    </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-            crossorigin="anonymous"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-    </script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script>
-        $(document).ready(function () {
-            $('.dropdown-submenu a.test').on("click", function (e) {
-                $(this).next('ul').toggle();
-                e.stopPropagation();
-                e.preventDefault();
+        </script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script>
+            $(document).ready(function () {
+                $('.dropdown-submenu a.test').on("click", function (e) {
+                    $(this).next('ul').toggle();
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
             });
-        });
-    </script>
-</environment>
+        </script>
+    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -105,8 +105,13 @@ div.navbar.navbar-inverse.navbar-fixed-top {
 #done-reviews,
 #create-review,
 #home-details-wrapper,
-#user-details {
+#user-details,
+#msg-create{
     min-height: 90%;
+}
+
+#msg-create {
+    background-color: #e6e6e6;
 }
 
 #host-bokings {
@@ -686,4 +691,8 @@ div.message-buttons-container {
 #book-home-container > a {
     height: 50px;
     font-size: 25px;
+}
+
+#booking-create input {
+    color: black;
 }

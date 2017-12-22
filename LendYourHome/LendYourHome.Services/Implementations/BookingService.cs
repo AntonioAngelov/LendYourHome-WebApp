@@ -57,12 +57,20 @@
                 .ProjectTo<GuestBookingServiceModel>()
                 .ToList();
 
-        public IEnumerable<HostBookingsServiceModel> HostBookings(string hostId, bool approved = false)
+        public IEnumerable<HostBookingsServiceModel> HostBookings(int pageNumber,
+            int pageSize, string hostId, bool approved = false)
             => this.db
                 .Bookings
                 .Where(b => b.IsApproved == approved && b.Home.OwnerId == hostId && b.CheckInDate > DateTime.UtcNow)
-                .OrderBy(b => b.CheckInDate)
+                .OrderByDescending(b => b.CheckInDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<HostBookingsServiceModel>()
                 .ToList();
+
+        public int TotalBookingsByHost(string hostId, bool approved)
+            => this.db
+                .Bookings
+                .Count(b => b.IsApproved == approved && b.Home.OwnerId == hostId && b.CheckInDate > DateTime.UtcNow);
     }
 }

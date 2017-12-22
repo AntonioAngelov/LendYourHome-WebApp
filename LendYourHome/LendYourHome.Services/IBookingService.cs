@@ -14,6 +14,9 @@
 
         IEnumerable<GuestBookingServiceModel> GuestBookings(string guestId, bool approved);
 
-        IEnumerable<HostBookingsServiceModel> HostBookings(string hostId, bool approved);
+        IEnumerable<HostBookingsServiceModel> HostBookings(int pageNumber,
+            int pageSize, string hostId, bool approved);
+
+        int TotalBookingsByHost(string hostId, bool approved);
     }
 }

@@ -153,7 +153,9 @@
                 model.FormDataModel.Address,
                 newPictureUrl);
 
-            return this.RedirectToAction("Index", "Home", new {area = ""});
+            TempData[ApplicationConstants.TempDataSuccessMessageKey] = $"You have edited your profile.";
+
+            return this.RedirectToAction("Details", "Users", new { area="", id= userId });
         }
 
         private string GetAdequateProfilePicturePath()

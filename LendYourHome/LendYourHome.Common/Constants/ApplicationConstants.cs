@@ -31,5 +31,6 @@
         public const int DoneReviewsPageListingSize = 4;
         public const int ReviewsPageListinSize = 5;
         public const int MessagesPageListingSize = 6;
+        public const int HomeBookingPageListingSize = 10;
     }
 }
